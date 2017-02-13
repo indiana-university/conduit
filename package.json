@@ -1,0 +1,19 @@
+{
+  "name": "conduit-rxjs",
+  "version": "0.1.0",
+  "description": "A JavaScript library for architecting user interfaces with RxJS and React.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/basham/conduit.git"
+  },
+  "author": "Chris Basham <chris@bash.am>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/basham/conduit/issues"
+  },
+  "homepage": "https://github.com/basham/conduit#readme"
+}
