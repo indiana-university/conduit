@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/basham/conduit.git"
+    "url": "git+https://github.com/indiana-university/conduit.git"
   },
-  "author": "Chris Basham <chris@bash.am>",
+  "author": "Chris Basham <csbasham@iu.edu>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/basham/conduit/issues"
+    "url": "https://github.com/indiana-university/conduit/issues"
   },
-  "homepage": "https://github.com/basham/conduit#readme"
+  "homepage": "https://github.com/indiana-university/conduit#readme"
 }
