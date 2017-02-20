@@ -8,12 +8,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/indiana-university/conduit.git"
+    "url": "git+https://github.iu.edu/ess-ux/conduit.git"
   },
   "author": "Chris Basham <csbasham@iu.edu>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/indiana-university/conduit/issues"
+    "url": "https://github.iu.edu/ess-ux/conduit/issues"
   },
-  "homepage": "https://github.com/indiana-university/conduit#readme"
+  "homepage": "https://github.iu.edu/ess-ux/conduit#readme",
+  "peerDependencies": {
+    "rxjs": ">= 5.0.0"
+  },
+  "optionalDependencies": {
+    "react": ">= 0.14.0"
+  }
 }
