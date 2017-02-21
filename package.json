@@ -1,6 +1,6 @@
 {
   "name": "conduit-rxjs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A JavaScript library for architecting user interfaces with RxJS and React.",
   "main": "index.js",
   "scripts": {
