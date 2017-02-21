@@ -4,11 +4,16 @@
   "description": "A JavaScript library for architecting user interfaces with RxJS and React.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "release-patch": "npm version patch && git push origin master --tags && npm publish --access=public",
+    "release-minor": "npm version minor && git push origin master --tags && npm publish --access=public",
+    "release-major": "npm version major && git push origin master --tags && npm publish --access=public"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.iu.edu/ess-ux/conduit.git"
+  },
+  "publishConfig": {
+    "registry": "https://npmjs.iu.edu/repository"
   },
   "author": "Chris Basham <csbasham@iu.edu>",
   "license": "ISC",
