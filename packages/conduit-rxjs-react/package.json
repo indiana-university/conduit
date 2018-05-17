@@ -1,6 +1,6 @@
 {
   "name": "conduit-rxjs-react",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Conduit utilities for connecting RxJS streams to React.",
   "license": "MIT",
   "main": "bundles/conduit-rxjs-react.umd.min.js",
