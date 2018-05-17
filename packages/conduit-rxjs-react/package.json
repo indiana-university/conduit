@@ -1,0 +1,39 @@
+{
+  "name": "conduit-rxjs-react",
+  "version": "0.2.0",
+  "description": "Conduit utilities for connecting RxJS streams to React.",
+  "license": "MIT",
+  "main": "bundles/conduit-rxjs-react.umd.min.js",
+  "files": [
+    "bundles"
+  ],
+  "scripts": {
+    "build": "npm run build:dev && npm run build:prod",
+    "build:dev": "webpack --mode=development --module-bind js=babel-loader",
+    "build:prod": "webpack --mode=production --module-bind js=babel-loader"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.iu.edu/iu-uits-es/ess-conduit.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npmjs.iu.edu/repository"
+  },
+  "bugs": "https://github.iu.edu/iu-uits-es/ess-conduit/issues",
+  "homepage": "https://github.iu.edu/iu-uits-es/ess-conduit#readme",
+  "peerDependencies": {
+    "conduit-rxjs": ">= 0.3.0",
+    "react": ">= 0.14.0",
+    "rxjs": ">= 6.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "6.26.3",
+    "babel-loader": "7.1.4",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-preset-env": "1.7.0",
+    "babel-preset-react": "6.24.1",
+    "webpack": "4.8.3",
+    "webpack-cli": "2.1.3"
+  }
+}
