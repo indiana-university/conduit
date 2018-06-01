@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="Word Count - Conduit example"/>
+  <title>Word Count - Conduit example</title>
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.0/normalize.css">
+  <link type="text/css" rel="stylesheet" href="./main.css">
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    window.CONFIG = { samples: [
+      [
+        // https://www.gutenberg.org/ebooks/1342
+        'Pride and Prejudice',
+        `It is a truth universally acknowledged, that a single man in possession
+of a good fortune, must be in want of a wife.
+
+However little known the feelings or views of such a man may be on his
+first entering a neighbourhood, this truth is so well fixed in the minds
+of the surrounding families, that he is considered the rightful property
+of some one or other of their daughters.
+
+“My dear Mr. Bennet,” said his lady to him one day, “have you heard that
+Netherfield Park is let at last?”
+
+Mr. Bennet replied that he had not.
+
+“But it is,” returned she; “for Mrs. Long has just been here, and she
+told me all about it.”
+
+Mr. Bennet made no answer.
+
+“Do you not want to know who has taken it?” cried his wife impatiently.
+
+“_You_ want to tell me, and I have no objection to hearing it.”
+
+This was invitation enough.
+
+“Why, my dear, you must know, Mrs. Long says that Netherfield is taken
+by a young man of large fortune from the north of England; that he came
+down on Monday in a chaise and four to see the place, and was so much
+delighted with it, that he agreed with Mr. Morris immediately; that he
+is to take possession before Michaelmas, and some of his servants are to
+be in the house by the end of next week.”
+
+“What is his name?”
+
+“Bingley.”
+
+“Is he married or single?”
+
+“Oh! Single, my dear, to be sure! A single man of large fortune; four or
+five thousand a year. What a fine thing for our girls!”`
+      ],
+      [
+        // https://www.gutenberg.org/ebooks/120
+        'Treasure Island',
+        `SQUIRE TRELAWNEY, Dr. Livesey, and the rest of these gentlemen having
+asked me to write down the whole particulars about Treasure Island, from
+the beginning to the end, keeping nothing back but the bearings of the
+island, and that only because there is still treasure not yet lifted, I
+take up my pen in the year of grace 17__ and go back to the time when
+my father kept the Admiral Benbow inn and the brown old seaman with the
+sabre cut first took up his lodging under our roof.
+
+I remember him as if it were yesterday, as he came plodding to the
+inn door, his sea-chest following behind him in a hand-barrow--a
+tall, strong, heavy, nut-brown man, his tarry pigtail falling over the
+shoulder of his soiled blue coat, his hands ragged and scarred, with
+black, broken nails, and the sabre cut across one cheek, a dirty, livid
+white. I remember him looking round the cover and whistling to himself
+as he did so, and then breaking out in that old sea-song that he sang so
+often afterwards:
+
+          “Fifteen men on the dead man's chest--
+              Yo-ho-ho, and a bottle of rum!”
+
+in the high, old tottering voice that seemed to have been tuned and
+broken at the capstan bars. Then he rapped on the door with a bit of
+stick like a handspike that he carried, and when my father appeared,
+called roughly for a glass of rum. This, when it was brought to him,
+he drank slowly, like a connoisseur, lingering on the taste and still
+looking about him at the cliffs and up at our signboard.`
+      ],
+      [
+        // https://www.gutenberg.org/ebooks/74
+        'The Adventures of Tom Sawyer',
+        `“TOM!”
+
+No answer.
+
+“TOM!”
+
+No answer.
+
+“What's gone with that boy,  I wonder? You TOM!”
+
+No answer.
+
+The old lady pulled her spectacles down and looked over them about the
+room; then she put them up and looked out under them. She seldom or
+never looked _through_ them for so small a thing as a boy; they were
+her state pair, the pride of her heart, and were built for “style,” not
+service--she could have seen through a pair of stove-lids just as well.
+She looked perplexed for a moment, and then said, not fiercely, but
+still loud enough for the furniture to hear:
+
+“Well, I lay if I get hold of you I'll--”
+
+She did not finish, for by this time she was bending down and punching
+under the bed with the broom, and so she needed breath to punctuate the
+punches with. She resurrected nothing but the cat.
+
+“I never did see the beat of that boy!”
+
+She went to the open door and stood in it and looked out among the
+tomato vines and “jimpson” weeds that constituted the garden. No Tom. So
+she lifted up her voice at an angle calculated for distance and shouted:
+
+“Y-o-u-u TOM!”
+
+There was a slight noise behind her and she turned just in time to seize
+a small boy by the slack of his roundabout and arrest his flight.
+
+“There! I might 'a' thought of that closet. What you been doing in
+there?”`
+      ]
+    ] }
+  </script>
+  <script crossorigin src="https://unpkg.com/react@16.3.2/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16.3.2/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/rxjs@6.1.0/bundles/rxjs.umd.min.js"></script>
+  <script src="./conduit-rxjs/bundles/conduit-rxjs.umd.min.js"></script>
+  <script src="./conduit-rxjs-react/bundles/conduit-rxjs-react.umd.min.js"></script>
+  <script src="./main.js"></script>
+</body>
+</html>

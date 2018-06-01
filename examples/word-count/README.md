@@ -1,4 +1,6 @@
-# Timer example
+# Word Count example
+
+The Word Count example demonstrates how to structure and run an app with state, events, and child components. It is initialized with data from the server via global variables in `index.html`.
 
 ## Installation and usage
 

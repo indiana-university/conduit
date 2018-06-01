@@ -18,25 +18,7 @@ Review [examples](examples) for how to get started.
 
 ## Building and testing
 
-Install dependencies for this repo.
-
-```
-npm install
-```
-
-Install dependencies for child packages.
-
-```
-npm run bootstrap
-```
-
-Build package bundles.
-
-```
-npm run build
-```
-
-Or do all three with:
+Install dependencies for this repo, for child packages, and for examples. Then build bundles.
 
 ```
 npm run start

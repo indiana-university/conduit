@@ -1,6 +1,7 @@
 # Examples
 
 - [Timer](timer)
+- [Word Count](word-count)
 
 ## Installation and usage
 
