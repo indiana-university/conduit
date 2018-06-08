@@ -1,6 +1,6 @@
 <img width="840" src="https://raw.githubusercontent.com/basham/conduit-media/master/logo/conduit-logo.svg?sanitize=true" alt="Conduit">
 
-Conduit provides a light set of utilities on top of a reactive library ([RxJS](http://reactivex.io/rxjs/)) and a UI rendering library ([React](https://reactjs.org/)) to support efficient and scalable front-end applications architectures.
+Conduit provides a light set of utilities on top of a reactive library ([RxJS](http://reactivex.io/rxjs/)) and a UI rendering library ([React](https://reactjs.org/)) to support efficient and scalable front-end application architectures.
 
 ## Installation and usage
 
