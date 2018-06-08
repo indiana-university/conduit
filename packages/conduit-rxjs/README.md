@@ -19,7 +19,7 @@ npm install conduit-rxjs
 - [`createStreams`](#createstreams)
 - [`debug`](#debug) (operator)
 - [`mergeStreams`](#mergestreams)
-- `run`
+- [`run`](#run)
 
 ### `bindNext`
 
@@ -40,7 +40,7 @@ Emit `next` notifications with RxJS.
 ```js
 import { Subject } from 'rxjs'
 
-const tick$ = new Subject
+const tick$ = new Subject()
 tick$.next(1)
 tick$.next(2)
 
@@ -56,7 +56,7 @@ Emit `next` notification from a bound function with RxJS.
 ```js
 import { Subject } from 'rxjs'
 
-const tick$ = new Subject
+const tick$ = new Subject()
 function tick(next) {
   tick$.next(next)
 }
@@ -77,7 +77,7 @@ Emit `next` notification from a bound function with Conduit, with `source` as an
 import { Subject } from 'rxjs'
 import { bindNext } from 'conduit-rxjs'
 
-const event$ = new Subject
+const event$ = new Subject()
 const eventHandler = bindNext(event$)
 
 eventHandler(1)
@@ -97,8 +97,8 @@ import { Subject } from 'rxjs'
 import { bindNext } from 'conduit-rxjs'
 
 const events = [
-  new Subject,
-  new Subject
+  new Subject(),
+  new Subject()
 ]
 const eventHandlers = bindNext(events)
 
@@ -172,8 +172,8 @@ Create a collection of event streams with RxJS:
 import { Subject } from 'rxjs'
 
 const events = {
-  click$: new Subject,
-  keyDown$: new Subject
+  click$: new Subject(),
+  keyDown$: new Subject()
 }
 ```
 
@@ -252,15 +252,15 @@ Merge a collection of event streams with RxJS.
 import { Subject, merge } from 'rxjs'
 
 const eventsA = {
-  click$: new Subject,
-  keyDown$: new Subject
+  click$: new Subject(),
+  keyDown$: new Subject()
 }
 const eventsB = {
-  click$: new Subject,
-  submit$: new Subject
+  click$: new Subject(),
+  submit$: new Subject()
 }
 const eventsC = {
-  keyUp$: new Subject
+  keyUp$: new Subject()
 }
 const mergedEvents = {
   click$: merge(eventsA.click$, eventsB.click$),
@@ -287,6 +287,166 @@ const eventsC = createStreams([
   'keyUp'
 ])
 const mergedEvents = mergeStreams(eventsA, eventsB, eventsC)
+```
+
+### `run`
+
+Automatically emit values to an upstream source from a downstream source. Use this to update value streams created with `createStreams()` with values outputed from reducer streams.
+
+**Usage:** `run(source, reducers)`
+
+**Arguments:**
+- `source`: An object of streams, as would be created from `createStreams()`. Or an object containing multiple objects of streams.
+- `reducers`: Stream or object of streams. Emit objects with keys matching the key of the value stream (without the postfixed `$`). Multiple keys on the same emitted object will result in multiple concurrent updates.
+
+**Returns:** Subscription. This could contain multiple child subscriptions.
+
+**Example 1:**
+
+Increment a counter with RxJS.
+
+```js
+import { BehaviorSubject, Subject } from 'rxjs'
+import { map } from 'rxjs/operators'
+
+const count$ = new BehaviorSubject(0)
+const increment$ = new Subject()
+const increment = (value) => increment$.next(value)
+const reducer$ = increment$.pipe(
+  withLatestFrom(count$),
+  map(([ increment = 1, count ]) => count + increment)
+)
+const subscription = reducer$.subscribe((value) => count$.next(value))
+
+increment() // Count: 1
+increment() // Count: 2
+increment(2) // Count: 4
+```
+
+Increment a counter with Conduit.
+
+```js
+import { map } from 'rxjs/operators'
+import { bindNext, createStreams, run } from 'conduit-rxjs'
+
+const values = createStreams({
+  count: 0
+})
+const events = createStreams([
+  'increment'
+])
+const handlers = bindNext(events)
+const reducer$ = events.increment$.pipe(
+  withLatestFrom(values.count$),
+  map(([ increment = 1, count ]) => count + increment),
+  map((count) => ({ count }))
+)
+const subscription = run(values, reducer$)
+
+handlers.increment() // Count: 1
+handlers.increment() // Count: 2
+handlers.increment(2) // Count: 4
+```
+
+**Example 2:**
+
+Partition and update values in two different stores with RxJS.
+
+```js
+import { BehaviorSubject, Subject } from 'rxjs'
+import { map } from 'rxjs/operators'
+
+const db = {
+  count$: new BehaviorSubject(0)
+}
+const ui = {
+  size$: new BehaviorSubject('regular'),
+  theme$: new BehaviorSubject('light')
+}
+const events = {
+  increment$: new Subject(),
+  toggleSize$: new Subject(),
+  toggleTheme$: new Subject()
+}
+const handlers = {
+  increment: (value) => events.increment$.next(value),
+  toggleSize: (value) => events.toggleSize$.next(value),
+  toggleTheme: (value) => events.toggleTheme$.next(value)
+}
+const count$ = events.increment$.pipe(
+  withLatestFrom(db.count$),
+  map(([ increment = 1, count ]) => count + increment)
+)
+const size$ = events.toggleSize$.pipe(
+  withLatestFrom(ui.size$),
+  map((size) => size === 'regular' ? 'large' : 'regular')
+)
+const theme$ = events.toggleTheme$.pipe(
+  withLatestFrom(ui.theme$),
+  map((theme) => theme === 'light' ? 'dark' : 'light')
+)
+const countSubscription = count$.subscribe((value) => db.count$.next(value))
+const sizeSubscription = size$.subscribe((value) => ui.size$.next(value))
+const themeSubscription = theme$.subscribe((value) => ui.theme$.next(value))
+countSubscription.add(sizeSubscription)
+countSubscription.add(themeSubscription)
+const subscription = countSubscription
+
+handlers.increment() // Count: 1
+handlers.toggleTheme() // Theme: dark
+handlers.toggleSize() // Size: large
+handlers.increment() // Count: 2
+handlers.toggleTheme() // Theme: light
+handlers.increment(2) // Count: 4
+```
+
+Partition and update values in two different stores with Conduit.
+
+```js
+import { merge } from 'rxjs'
+import { map } from 'rxjs/operators'
+import { bindNext, createStreams, run } from 'conduit-rxjs'
+
+const db = createStreams({
+  count: 0
+})
+const ui = createStreams({
+  size: 'regular',
+  theme: 'light'
+})
+const values = { db, ui }
+const events = createStreams([
+  'increment',
+  'toggleSize',
+  'toggleTheme'
+])
+const handlers = bindNext(events)
+const count$ = events.increment$.pipe(
+  withLatestFrom(db.count$),
+  map(([ increment = 1, count ]) => count + increment),
+  map((count) => ({ count }))
+)
+const size$ = events.toggleSize$.pipe(
+  withLatestFrom(ui.size$),
+  map((size) => size === 'regular' ? 'large' : 'regular'),
+  map((size) => ({ size }))
+)
+const theme$ = events.toggleTheme$.pipe(
+  withLatestFrom(ui.theme$),
+  map((theme) => theme === 'light' ? 'dark' : 'light'),
+  map((theme) => ({ theme }))
+)
+const db$ = merge(count$)
+const ui$ = merge(size$, theme$)
+const reducers = { db$, ui$ }
+const subscription = run(values, reducers)
+
+handlers.increment() // Count: 1
+handlers.toggleTheme() // Theme: dark
+handlers.toggleSize() // Size: large
+handlers.increment() // Count: 2
+handlers.toggleTheme() // Theme: light
+handlers.increment(2) // Count: 4
 ```
 
 ## Advanced API
@@ -353,7 +513,7 @@ Emit `error` notification with RxJS.
 ```js
 import { Subject } from 'rxjs'
 
-const tick$ = new Subject
+const tick$ = new Subject()
 tick$.error('error')
 ```
 
@@ -362,7 +522,7 @@ Emit `error` notification from a bound function with RxJS.
 ```js
 import { Subject } from 'rxjs'
 
-const tick$ = new Subject
+const tick$ = new Subject()
 function tickError(error) {
   tick$.error(error)
 }
@@ -400,7 +560,7 @@ Emit `complete` notification with RxJS.
 ```js
 import { Subject } from 'rxjs'
 
-const tick$ = new Subject
+const tick$ = new Subject()
 tick$.complete()
 ```
 
@@ -409,7 +569,7 @@ Emit `complete` notification from a bound function with RxJS.
 ```js
 import { Subject } from 'rxjs'
 
-const tick$ = new Subject
+const tick$ = new Subject()
 function tickComplete() {
   tick$.complete()
 }

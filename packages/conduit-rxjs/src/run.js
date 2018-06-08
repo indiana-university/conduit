@@ -1,12 +1,5 @@
 import { Observable } from 'rxjs'
 
-// Automatically connect any number of value and reducer domains.
-// If structured symmetrically, this:
-//   run(values, reducers);
-// Is equivalent to:
-//   run(values.db, reducers.db$);
-//   run(values.ui, reducers.ui$);
-// Returns a subscription encompassing all underlying subscriptions.
 export function run (values, reducer$) {
   const isReducerObservable = reducer$ instanceof Observable
   const domains = isReducerObservable
