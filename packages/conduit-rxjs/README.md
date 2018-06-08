@@ -13,7 +13,13 @@ Then install this package:
 npm install conduit-rxjs
 ```
 
+## RxJS
+
+RxJS is a functional reactive library used to control and transform data from one part of the application to another. Data flows from one observable to another in pipelines known as streams. Data is typically sourced from either events that occur over time (represented by a [Subject](http://reactivex.io/rxjs/manual/overview.html#subject)) or values that change over time (represented by a [BehaviorSubject](http://reactivex.io/rxjs/manual/overview.html#behaviorsubject)). For example, birthday parties are events which may occur and repeat over time, while a person's age is information which changes over time. User interaction is a collection of observable events, while application state is a collection of observable values. Read the [RxJS Overview](http://reactivex.io/rxjs/manual/overview.html) document to be introduced to further essential concepts.
+
 ## API
+
+Conduit adopts a common convention known as [Finnish Notation](https://medium.com/@benlesh/observables-and-finnish-notation-df8356ed1c9b) in order to assist code readability. The names of streams are postfixed with the `$` character, making it easier to distinguish streams from other variable types. The Conduit API may not work as expected if you don't follow this convention.
 
 - [`createHandlers`](#createHandlers)
 - [`createStreams`](#createstreams)

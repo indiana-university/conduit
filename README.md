@@ -38,12 +38,6 @@ If using a tool like RxJS, the [Redux pattern can be replicated with minimal eff
 
 There are several JavaScript frameworks built for reactive architectures, but they package a custom non-general purpose reactive library under the hood ([Cerebral](http://www.cerebraljs.com/), [MobX](https://github.com/mobxjs/mobx)), assume a non-React VirtualDOM ([Cycle.js](https://cycle.js.org/)), or require a high-level language which compiles down to JavaScript ([Elm](http://elm-lang.org/)). By [understanding these and other unidirectional architectures](http://staltz.com/unidirectional-user-interface-architectures.html), a simple set of RxJS/React utilities can be created to support recommended architecture patterns, which will be more future-friendly, adaptable, and maintainable than a custom or existing framework. These utilities could eventually be generalized to work with any reactive library or any virtual DOM library.
 
-## RxJS
-
-This document assumes a basic knowledge of RxJS. Read the [RxJS Overview](http://reactivex.io/rxjs/manual/overview.html) to be introduced to essential concepts.
-
-RxJS is used to control and transform data from one part of the application to another. Data flows from one observable to another in pipelines known as streams. (By convention, the name of a stream is postfixed with a `$` character, in order to assist code readability.) Data is typically sourced from either events that occur over time (represented by a [Subject](http://reactivex.io/rxjs/manual/overview.html#subject)) or values that change over time (represented by a [BehaviorSubject](http://reactivex.io/rxjs/manual/overview.html#behaviorsubject)). For example, birthday parties are events which may occur and repeat over time, while a person's age is information which changes over time. User interaction is a collection of observable events, while application state is a collection of observable values.
-
 ## Further reading
 
 - [*Glossary of Modern JavaScript Concepts: Part 1*](https://dzone.com/articles/glossary-of-modern-javascript-concepts-part-1), Feb 2017
