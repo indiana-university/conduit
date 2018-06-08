@@ -52,6 +52,10 @@ RxJS is used to control and transform data from one part of the application to a
 
 ## Similar projects
 
+- [`component-from-stream`](https://github.com/zenyway/component-from-stream)
+- [Cycle.js](https://cycle.js.org/)
+- [MobX](https://github.com/mobxjs/mobx)
+- [Recompose observable utilities](https://github.com/acdlite/recompose/blob/master/docs/API.md#observable-utilities)
 - [Recycle](https://recycle.js.org/)
 
 ## Contributors
