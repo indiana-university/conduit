@@ -1,6 +1,6 @@
 import { combineLatest, merge, of } from 'rxjs'
 import { map, mapTo, tap, withLatestFrom } from 'rxjs/operators'
-import { bindNext, createStreams, run } from 'conduit-rxjs'
+import { createHandlers, createStreams, run } from 'conduit-rxjs'
 import { connect } from 'conduit-rxjs-react'
 import { StatusBar } from './StatusBar'
 
@@ -95,7 +95,7 @@ function createReducers (intent) {
 // Select the minimal information needed to render the view.
 function createSelector (events, state, components) {
   // Create all handlers at once.
-  const handlers = bindNext(events)
+  const handlers = createHandlers(events)
   // Combine all values into a single stream.
   return combineLatest(state.text$, state.samples$).pipe(
     map(([ text, samples ]) =>

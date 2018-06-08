@@ -6,15 +6,12 @@ export function createStreams (source) {
     : Object.keys(source)
   return keys
     .reduce(
-      (acc, key) => ({
-        ...acc,
-        [`${key}$`]: createStream(source[key])
-      }),
+      (acc, key) => ({ ...acc, [`${key}$`]: createStream(source[key]) }),
       {}
     )
 }
 
-export function createStream (initValue) {
+function createStream (initValue) {
   return initValue === undefined
     ? new Subject()
     : new BehaviorSubject(initValue)

@@ -2,7 +2,7 @@ import { Component } from 'react'
 import { Observable, bindCallback, from, of } from 'rxjs'
 import { audit, buffer, filter, mergeMap, observeOn, tap } from 'rxjs/operators'
 import { animationFrame } from 'rxjs/scheduler'
-import { bindNext, createStreams } from 'conduit-rxjs'
+import { createHandlers, createStreams } from 'conduit-rxjs'
 
 const defaultArgs = 'props$,componentDidRender,componentWillUnmount'.split(',')
 
@@ -74,7 +74,7 @@ export function connect (WrappedComponent, source, ...args) {
         ...this.lifecycle,
         ...lifecycle
       }
-      return bindNext(this.lifecycle[`${name}$`], name)
+      return createHandlers(this.lifecycle[`${name}$`])
     }
     componentDidMount () {
       this.componentDidRender()

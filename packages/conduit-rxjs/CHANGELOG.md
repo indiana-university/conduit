@@ -29,6 +29,34 @@ const ticker$ = interval(1000).pipe(
 )
 ```
 
+2. The `bindNext()` function is renamed to `createHandlers()`. This new name reflects the primary use case (which is creating handlers), rather than how it was interfacing with the RxJS API (which binds to the observable's `next()` method). The new name also better aligns with the naming convention of the `createStreams()` Conduit function. Additionally, to simplify the function, the optional second argument for passing a custom name to the function is removed. (#33, #40)
+
+```js
+// Replace this:
+import { bindNext } from 'conduit-rxjs'
+const handlers = bindNext(source, 'name')
+
+// With this:
+import { createHandlers } from 'conduit-rxjs'
+const handlers = createHandlers(source)
+```
+
+3. The `bindError()`, `bindComplete()`, and `bindNotification()` functions are removed. These were created alongside `bindNext()` in order to provide full parity with an observable subscription signature (next, error, complete). It was never good practice to use these, as there are better ways to throw errors and complete observables with native operators. (#33, #40)
+
+4. The `createStream()` function is removed in order to keep Conduit's API surface minimal. This was exported but never documented. Just use `createStreams()` instead. (#33, #40)
+
+```js
+// Replace this:
+import { createStream } from 'conduit-rxjs'
+const event$ = createStream()
+const value$ = createStream(0)
+
+// With this:
+import { createStreams } from 'conduit-rxjs'
+const { event$ } = createStreams([ 'event' ])
+const { value$ } = createStreams({ value: 0 })
+```
+
 ## v0.3.1
 
 Published May 17, 2018.

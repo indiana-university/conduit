@@ -15,142 +15,97 @@ npm install conduit-rxjs
 
 ## API
 
-- [`bindNext`](#bindnext)
+- [`createHandlers`](#createHandlers)
 - [`createStreams`](#createstreams)
 - [`debug`](#debug) (operator)
 - [`mergeStreams`](#mergestreams)
 - [`run`](#run)
 
-### `bindNext`
+### `createHandlers`
 
-Create functions bound to `next` observable notification methods. This is used most commonly to create event handlers for React components.
+Create functions which emit values on a stream. Internally, they call the underlying `next()` method on the observable. This is used most commonly to create event handlers for the UI.
 
-**Usage:** `bindNext(source, functionName)`
+**Usage:** `createHandlers(source)`
 
 **Arguments:**
 - `source: Observable|Array of observables|Object of observables`
-- `functionName: String = "next"` The name of the function bound to `next` that will be returned. This is useful for debugging.
 
 **Returns:** `Function|Array of functions|Object of functions` If the source is an object of observables, all keys will with a `$` postfix will be removed from the returned object keys.
 
-**Example:**
+**Examples:**
 
-Emit `next` notifications with RxJS.
-
-```js
-import { Subject } from 'rxjs'
-
-const tick$ = new Subject()
-tick$.next(1)
-tick$.next(2)
-
-tick$.subscribe(console.log)
-
-// Console output:
-// 1
-// 2
-```
-
-Emit `next` notification from a bound function with RxJS.
+Make a handler from a stream using RxJS.
 
 ```js
 import { Subject } from 'rxjs'
 
-const tick$ = new Subject()
-function tick(next) {
-  tick$.next(next)
+const source$ = new Subject()
+function handler(next) {
+  source$.next(next)
 }
-
-tick(1)
-tick(2)
-
-tick$.subscribe(console.log)
-
-// Console output:
-// 1
-// 2
+source$.subscribe(console.log)
+handler(1) // Logs: 1
+handler(2) // Logs: 2
 ```
 
-Emit `next` notification from a bound function with Conduit, with `source` as an event stream.
+Make a handler from a stream using Conduit.
 
 ```js
 import { Subject } from 'rxjs'
-import { bindNext } from 'conduit-rxjs'
+import { createHandlers } from 'conduit-rxjs'
 
-const event$ = new Subject()
-const eventHandler = bindNext(event$)
-
-eventHandler(1)
-eventHandler(2)
-
-event$.subscribe(console.log)
-
-// Console output:
-// 1
-// 2
+const source$ = new Subject()
+source$.subscribe(console.log)
+const handler = createHandlers(source$)
+handler(1) // Logs: 1
+handler(2) // Logs: 2
 ```
 
-Emit `next` notification from a bound function with Conduit, with `source` as an array of event streams.
+Make handlers from an array of streams using Conduit.
 
 ```js
 import { Subject } from 'rxjs'
-import { bindNext } from 'conduit-rxjs'
+import { createHandlers } from 'conduit-rxjs'
 
-const events = [
+const source = [
   new Subject(),
   new Subject()
 ]
-const eventHandlers = bindNext(events)
-
-eventHandlers[0](1)
-eventHandlers[0](2)
-
-event$.subscribe(console.log)
-
-// Console output:
-// 1
-// 2
+source[0].subscribe((v) => console.log('A', v))
+source[1].subscribe((v) => console.log('B', v))
+const handlers = createHandlers(source)
+handlers[0](1) // Logs: A 1
+handlers[1](2) // Logs: B 2
+handlers[0](3) // Logs: A 3
+handlers[1](4) // Logs: B 4
 ```
 
-Emit `next` notification from a bound function with Conduit, with `source` as an object of event streams.
+Make handlers from event streams using Conduit.
 
 ```js
-import { createStreams, bindNext } from 'conduit-rxjs'
+import { createStreams, createHandlers } from 'conduit-rxjs'
 
-const events = createStreams([
+const source = createStreams([
   'tick'
 ])
-const eventHandlers = bindNext(events)
-
-eventHandlers.tick(1)
-eventHandlers.tick(2)
-
-eventHandlers.tick$.subscribe(console.log)
-
-// Console output:
-// 1
-// 2
+source.tick$.subscribe(console.log)
+const handlers = createHandlers(source)
+handlers.tick(1) // Logs: 1
+handlers.tick(2) // Logs: 2
 ```
 
-Emit `next` notification from a bound function with Conduit, with `source` as an object of value streams.
+Make handlers from value streams using Conduit.
 
 ```js
-import { createStreams, bindNext } from 'conduit-rxjs'
+import { createStreams, createHandlers } from 'conduit-rxjs'
 
-const values = createStreams({
-  tickCount: 0
+const source = createStreams({
+  count: 0
 })
-const valueHandlers = bindNext(values)
-
-valueHandlers.tickCount(1)
-valueHandlers.tickCount(2)
-
-values.tickCount$.subscribe(console.log)
-
-// Console output:
-// 0
-// 1
-// 2
+source.count$.subscribe(console.log) // Logs: 0
+const handlers = createHandlers(source)
+handlers.count(1) // Logs: 1
+handlers.count(2) // Logs: 2
 ```
 
 ### `createStreams`
@@ -327,7 +282,7 @@ Increment a counter with Conduit.
 
 ```js
 import { map } from 'rxjs/operators'
-import { bindNext, createStreams, run } from 'conduit-rxjs'
+import { createHandlers, createStreams, run } from 'conduit-rxjs'
 
 const values = createStreams({
   count: 0
@@ -335,7 +290,7 @@ const values = createStreams({
 const events = createStreams([
   'increment'
 ])
-const handlers = bindNext(events)
+const handlers = createHandlers(events)
 const reducer$ = events.increment$.pipe(
   withLatestFrom(values.count$),
   map(([ increment = 1, count ]) => count + increment),
@@ -405,7 +360,7 @@ Partition and update values in two different stores with Conduit.
 ```js
 import { merge } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { bindNext, createStreams, run } from 'conduit-rxjs'
+import { createHandlers, createStreams, run } from 'conduit-rxjs'
 
 const db = createStreams({
   count: 0
@@ -420,7 +375,7 @@ const events = createStreams([
   'toggleSize',
   'toggleTheme'
 ])
-const handlers = bindNext(events)
+const handlers = createHandlers(events)
 const count$ = events.increment$.pipe(
   withLatestFrom(db.count$),
   map(([ increment = 1, count ]) => count + increment),
@@ -447,143 +402,4 @@ handlers.toggleSize() // Size: large
 handlers.increment() // Count: 2
 handlers.toggleTheme() // Theme: light
 handlers.increment(2) // Count: 4
-```
-
-## Advanced API
-
-Note: These low-level APIs were originally added in order to provide feature-parity with `bindNext()`. But their usage should generally be discouraged, as there are better ways to send errors and complete notifications through streams. These APIs may be removed in the future.
-
-- [`bindNotification`](#bindnotification)
-- [`bindError`](#binderror)
-- [`bindComplete`](#bindcomplete)
-
-### `bindNotification`
-
-A low level method for creating functions bound to observable notification methods. It is recommended to use `bindNext`, `bindComplete`, and `bindError` instead of this method. It is most common to use `bindNext`.
-
-**Usage:** `bindNotification(source, notification, functionName)`
-
-**Arguments:**
-- `source: Observable|Array of observables|Object of observables`
-- `notification: "next"|"complete"|"error"` The notification method to bind from the `source` observable.
-- `functionName: String (optional)` The name of the function that will be returned. This is useful for debugging. If not provided, `functionName` defaults to the value of the `notification` argument.
-
-**Returns:** `Function|Array of functions|Object of functions` If the source is an object of observables, all keys will with a `$` postfix will be removed from the returned object keys.
-
-**Example:**
-
-Bind `next`, `error`, and `complete` methods using `bindNotification`.
-
-```js
-import { createStreams, bindNotification } from 'conduit-rxjs'
-
-const events = createStreams(['tick'])
-const nextHandlers = bindNotification(events, 'next')
-const errorHandlers = bindNotification(events, 'error')
-const completeHandlers = bindNotification(events, 'complete')
-```
-
-Bind `next`, `error`, and `complete` methods using `bindNext`, `bindError`, and `bindComplete`.
-
-```js
-import { createStreams, bindNext, bindError, bindComplete } from 'conduit-rxjs'
-
-const events = createStreams(['tick'])
-const nextHandlers = bindNext(events)
-const errorHandlers = bindError(events)
-const completeHandlers = bindComplete(events)
-```
-
-### `bindError`
-
-Create functions bound to `error` observable notification methods.
-
-**Usage:** `bindError(source, functionName)`
-
-**Arguments:**
-- `source: Observable|Array of observables|Object of observables`
-- `functionName: String = "error"` The name of the function bound to `error` that will be returned. This is useful for debugging.
-
-**Returns:** `Function|Array of functions|Object of functions` If the source is an object of observables, all keys will with a `$` postfix will be removed from the returned object keys.
-
-**Example:**
-
-Emit `error` notification with RxJS.
-
-```js
-import { Subject } from 'rxjs'
-
-const tick$ = new Subject()
-tick$.error('error')
-```
-
-Emit `error` notification from a bound function with RxJS.
-
-```js
-import { Subject } from 'rxjs'
-
-const tick$ = new Subject()
-function tickError(error) {
-  tick$.error(error)
-}
-
-tickError('error')
-```
-
-Emit `error` notification from a bound function with Conduit.
-
-```js
-import { createStreams, bindError } from 'conduit-rxjs'
-
-const events = createStreams(['tick'])
-const errorHandlers = bindError(events)
-
-errorHandlers.tick('error')
-```
-
-### `bindComplete`
-
-Create functions bound to `complete` observable notification methods.
-
-**Usage:** `bindComplete(source, functionName)`
-
-**Arguments:**
-- `source: Observable|Array of observables|Object of observables`
-- `functionName: String = "complete"` The name of the function bound to `complete` that will be returned. This is useful for debugging.
-
-**Returns:** `Function|Array of functions|Object of functions` If the source is an object of observables, all keys will with a `$` postfix will be removed from the returned object keys.
-
-**Example:**
-
-Emit `complete` notification with RxJS.
-
-```js
-import { Subject } from 'rxjs'
-
-const tick$ = new Subject()
-tick$.complete()
-```
-
-Emit `complete` notification from a bound function with RxJS.
-
-```js
-import { Subject } from 'rxjs'
-
-const tick$ = new Subject()
-function tickComplete() {
-  tick$.complete()
-}
-
-tickComplete()
-```
-
-Emit `complete` notification from a bound function with Conduit.
-
-```js
-import { createStreams, bindComplete } from 'conduit-rxjs'
-
-const events = createStreams(['tick'])
-const completeHandlers = bindComplete(events)
-
-completeHandlers.tick()
 ```
