@@ -14,12 +14,6 @@ module.exports = (env, argv) => ({
   },
   devtool: 'source-map',
   externals: {
-    rxjs: 'rxjs',
-    'rxjs/operators': {
-      commonjs: 'rxjs/operators',
-      commonjs2: 'rxjs/operators',
-      amd: 'rxjs/operators',
-      root: ['rxjs', 'operators']
-    }
+    rxjs: 'rxjs'
   }
 })

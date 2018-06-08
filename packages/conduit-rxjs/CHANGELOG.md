@@ -57,6 +57,34 @@ const { event$ } = createStreams([ 'event' ])
 const { value$ } = createStreams({ value: 0 })
 ```
 
+5. The `debug()` operator is removed because it is not essential to Conduit. Replace `debug()` with the `tap()` operator or use [`rxjs-console-logger`](https://github.com/donaldaverill/rxjs-console-logger-operator). (#42, #45)
+
+```js
+// Replace this:
+import { interval } from 'rxjs'
+import { debug } from 'conduit-rxjs'
+interval(1000).pipe(
+  debug('Debugging')
+)
+.subscribe()
+
+// With this:
+import { interval } from 'rxjs'
+import { tap } from 'rxjs/operators'
+interval(1000).pipe(
+  tap((v) => console.log('Debugging', v))
+)
+.subscribe()
+
+// Or with this:
+import { interval } from 'rxjs'
+import { debug } from 'rxjs-console-logger'
+interval(1000).pipe(
+  debug('Debugging')
+)
+.subscribe()
+```
+
 ## v0.3.1
 
 Published May 17, 2018.

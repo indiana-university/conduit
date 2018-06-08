@@ -23,7 +23,6 @@ Conduit adopts a common convention known as [Finnish Notation](https://medium.co
 
 - [`createHandlers`](#createHandlers)
 - [`createStreams`](#createstreams)
-- [`debug`](#debug) (operator)
 - [`mergeStreams`](#mergestreams)
 - [`run`](#run)
 
@@ -171,27 +170,6 @@ const values = createStreams({
   id: 2,
   tasks: []
 })
-```
-
-### `debug`
-
-This function is used as a convenient way to add console logs to observables.
-
-Params:
-- **msg** - optional message to display before the value being passed in the stream
-- **val** - optional value to take the place of the value being passed in the stream val only takes the place of the stream value in the log statement. It is not passed on in the stream.
-
-Most common usage:
-
-```js
-.debug('I made it to this point!', null)
-// prints "I made it to this point!" on the console
-
-.debug('current value')
-// prints "current value" and whatever is the current value at that point in the stream
-
-.debug()
-// prints whatever is the current value in the stream
 ```
 
 ### `mergeStreams`
