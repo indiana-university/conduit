@@ -1,5 +1,34 @@
 # Changelog
 
+## v0.4.0 (In Progress)
+
+Published TBD.
+
+### Breaking changes
+
+1. The `shareStream()` operator was a convinence for `publishReplay(1).refCount()`. But since RxJS v5.4.0 re-introduced the `shareReplay()` operator which does the same thing, `shareStream()` is removed in favor of the native operator. Replace all uses of `shareStream()` with `shareReplay(1)` to maintain feature equivalence. (#34, #38)
+
+```js
+// Replace this:
+import { interval } from 'rxjs'
+import { map } from 'rxjs/operators'
+import { shareStream } from 'conduit-rxjs'
+
+const ticker$ = interval(1000).pipe(
+  map((value) => value * 2),
+  shareStream()
+)
+
+// With this:
+import { interval } from 'rxjs'
+import { map, shareReplay } from 'rxjs/operators'
+
+const ticker$ = interval(1000).pipe(
+  map((value) => value * 2),
+  shareReplay(1)
+)
+```
+
 ## v0.3.1
 
 Published May 17, 2018.

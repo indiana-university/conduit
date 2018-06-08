@@ -20,7 +20,6 @@ npm install conduit-rxjs
 - [`debug`](#debug) (operator)
 - [`mergeStreams`](#mergestreams)
 - `run`
-- [`shareStream`](#sharestream) (operator)
 
 ### `bindNext`
 
@@ -288,34 +287,6 @@ const eventsC = createStreams([
   'keyUp'
 ])
 const mergedEvents = mergeStreams(eventsA, eventsB, eventsC)
-```
-
-### `shareStream`
-
-This RxJS operator is a shorthand for making a [stream hot](https://medium.com/@benlesh/hot-vs-cold-observables-f8094ed53339). Even though 
-
-Share a stream with RxJS.
-
-```js
-import { interval, map, publishReplay, refCount } from 'rxjs'
-
-const stream$ = interval(1000).pipe(
-  map((i) => i * 2),
-  publishReplay(1),
-  refCount()
-)
-```
-
-Share a stream with Conduit.
-
-```js
-import { interval, map } from 'rxjs'
-import { shareStream } from 'conduit-rxjs'
-
-const stream$ = interval(1000).pipe(
-  map((i) => i * 2),
-  shareStream()
-)
 ```
 
 ## Advanced API
