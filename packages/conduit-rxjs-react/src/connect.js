@@ -1,8 +1,9 @@
 import { Component } from 'react'
-import { Observable, bindCallback, from, of } from 'rxjs'
+import { bindCallback, from, of } from 'rxjs'
 import { audit, buffer, filter, mergeMap, observeOn, tap } from 'rxjs/operators'
 import { animationFrame } from 'rxjs/scheduler'
 import { createHandlers, createStreams } from 'conduit-rxjs'
+import { isObservable } from './isObservable'
 
 const defaultArgs = 'props$,componentDidRender,componentWillUnmount'.split(',')
 
@@ -35,10 +36,10 @@ export function connect (WrappedComponent, source, ...args) {
       this.componentDidConstruct = true
     }
     getState () {
-      if (source instanceof Observable) { return source }
+      if (isObservable(source)) { return source }
       if (typeof source === 'function') {
         const output = this.initLifecycle()
-        if (output instanceof Observable) { return output }
+        if (isObservable(output)) { return output }
         return of(output)
       }
       return of({})
@@ -47,7 +48,7 @@ export function connect (WrappedComponent, source, ...args) {
       this.lifecycle = {}
       const params = (args.length ? args : defaultArgs)
         .slice(0, source.length)
-        .map(name => {
+        .map((name) => {
           if (name === 'props$') { return this.initLifecycleProps() }
           if (name === 'componentDidRender' || name === 'componentWillUnmount') { return this.initLifecycleConstructor(name) }
           return null
@@ -120,11 +121,11 @@ function createCallbackBuffer (source$, callback$) {
     // between the end of last callback and the end of this callback.
     buffer(callback$),
     // Convert the array of functions into a stream of functions.
-    mergeMap(callbacks => from(callbacks)),
+    mergeMap((callbacks) => from(callbacks)),
     // Execute each function during an animation frame, to avoid jank.
     observeOn(animationFrame)
   )
-    .subscribe(callback => callback())
+    .subscribe((callback) => callback())
 }
 
 function getDisplayName (WrappedComponent) {
