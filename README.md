@@ -12,7 +12,7 @@ Conduit is composed of two primary packages. Refer to these packages for specifi
 
 So far, Conduit only supports React, but further packages could be developed as needed to support other rendering libraries.
 
-Review [examples](examples) and [docs](docs) for how to get started.
+Review [examples](examples) for how to get started.
 
 ## Building and testing
 
