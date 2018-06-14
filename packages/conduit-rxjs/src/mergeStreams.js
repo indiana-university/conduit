@@ -1,5 +1,4 @@
-import { merge } from 'rxjs'
-import { isObservable } from './isObservable'
+import { isObservable, merge } from 'rxjs'
 
 export function mergeStreams (...streamSets) {
   // Group all values from all sources by key.

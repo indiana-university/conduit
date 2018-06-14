@@ -8,6 +8,8 @@ Published TBD.
 
 1. `conduit-rxjs` peer dependency is updated to `>= 0.4.0`.
 
+2. `rxjs` peer dependency is updated from `>= 6.0.0` to `>= 6.2.0` in order for Conduit to internally take advantage of the new `isObservable()` utility. (#53, #55)
+
 ## v0.3.1
 
 Published May 17, 2018.

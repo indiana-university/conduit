@@ -23,7 +23,7 @@
   "bugs": "https://github.iu.edu/iu-uits-es/ess-conduit/issues",
   "homepage": "https://github.iu.edu/iu-uits-es/ess-conduit#readme",
   "peerDependencies": {
-    "rxjs": ">= 6.0.0"
+    "rxjs": ">= 6.2.0"
   },
   "devDependencies": {
     "babel-core": "6.26.3",

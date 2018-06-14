@@ -85,6 +85,8 @@ interval(1000).pipe(
 .subscribe()
 ```
 
+6. `rxjs` peer dependency is updated from `>= 6.0.0` to `>= 6.2.0` in order for Conduit to internally take advantage of the new `isObservable()` utility. (#53, #55)
+
 ## v0.3.1
 
 Published May 17, 2018.

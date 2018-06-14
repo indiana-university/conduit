@@ -1,4 +1,4 @@
-import { isObservable } from './isObservable'
+import { isObservable } from 'rxjs'
 
 export function createHandlers (source) {
   if (isObservable(source)) {

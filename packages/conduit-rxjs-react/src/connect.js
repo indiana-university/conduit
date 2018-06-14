@@ -1,9 +1,8 @@
 import { Component } from 'react'
-import { bindCallback, from, of } from 'rxjs'
+import { bindCallback, from, isObservable, of } from 'rxjs'
 import { audit, buffer, filter, mergeMap, observeOn, tap } from 'rxjs/operators'
 import { animationFrame } from 'rxjs/scheduler'
 import { createHandlers, createStreams } from 'conduit-rxjs'
-import { isObservable } from './isObservable'
 
 const defaultArgs = 'props$,componentDidRender,componentWillUnmount'.split(',')
 

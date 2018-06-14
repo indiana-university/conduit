@@ -1,4 +1,4 @@
-import { isObservable } from './isObservable'
+import { isObservable } from 'rxjs'
 
 export function run (values, reducer$) {
   const domains = isObservable(reducer$)
