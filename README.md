@@ -58,7 +58,9 @@ There are several JavaScript frameworks built for reactive architectures, but th
 
 - [`component-from-stream`](https://github.com/zenyway/component-from-stream)
 - [Cycle.js](https://cycle.js.org/)
+- [Meiosis](https://meiosis.js.org/)
 - [MobX](https://github.com/mobxjs/mobx)
+- [ProppyJS](https://proppyjs.com/)
 - [Recompose observable utilities](https://github.com/acdlite/recompose/blob/master/docs/API.md#observable-utilities)
 - [Recycle](https://recycle.js.org/)
 
