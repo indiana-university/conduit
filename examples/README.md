@@ -1,7 +1,11 @@
 # Examples
 
-- [Timer](timer)
-- [Word Count](word-count)
+If new to RxJS, consider reading [*Introduction to RxJS*](intro-to-rxjs.md). This document outlines some fundamental concepts which will help you better undestand the examples.
+
+Examples, in order of complexity:
+
+1. [Timer](timer)
+2. [Word Count](word-count)
 
 ## Dependencies
 
