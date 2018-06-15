@@ -2,6 +2,16 @@
 
 Conduit provides a light set of utilities on top of a reactive library ([RxJS](http://reactivex.io/rxjs/)) and a UI rendering library ([React](https://reactjs.org/)) to support efficient and scalable front-end application architectures.
 
+Contents
+
+1. [Contributing guidelines](CONTRIBUTING.md)
+2. [Installation and usage](#installation-and-usage)
+3. [Building and testing](#building-and-testing)
+4. [Background](#background)
+5. [Further reading](#further-reading)
+6. [Similar projects](#similar-projects)
+7. [Contributors](#contributors)
+
 ## Installation and usage
 
 Conduit is composed of two primary packages. Refer to these packages for specific installation and usage.
