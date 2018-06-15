@@ -1,8 +1,8 @@
 # Changelog
 
-## v0.4.0 (In Progress)
+## v0.4.0
 
-Published TBD.
+Published June 15, 2018.
 
 ### Breaking changes
 
