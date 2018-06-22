@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.4.1
+
+Published June 22, 2018.
+
+### Bug fixes
+
+1. Fixed a runtime error when using the `componentDidRender` callback in the `connect` utility, due to an incorrect RxJS reference. (#62)
+
 ## v0.4.0
 
 Published June 15, 2018.

@@ -1,7 +1,6 @@
 import { Component } from 'react'
-import { bindCallback, from, isObservable, of } from 'rxjs'
+import { animationFrameScheduler, bindCallback, from, isObservable, of } from 'rxjs'
 import { audit, buffer, filter, mergeMap, observeOn, tap } from 'rxjs/operators'
-import { animationFrame } from 'rxjs/scheduler'
 import { createHandlers, createStreams } from 'conduit-rxjs'
 
 const defaultArgs = 'props$,componentDidRender,componentWillUnmount'.split(',')
@@ -122,7 +121,7 @@ function createCallbackBuffer (source$, callback$) {
     // Convert the array of functions into a stream of functions.
     mergeMap((callbacks) => from(callbacks)),
     // Execute each function during an animation frame, to avoid jank.
-    observeOn(animationFrame)
+    observeOn(animationFrameScheduler)
   )
     .subscribe((callback) => callback())
 }

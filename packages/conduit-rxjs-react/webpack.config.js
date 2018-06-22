@@ -32,12 +32,6 @@ module.exports = (env, argv) => ({
       commonjs: 'rxjs/operators',
       commonjs2: 'rxjs/operators',
       root: ['rxjs', 'operators']
-    },
-    'rxjs/scheduler': {
-      amd: 'rxjs/scheduler',
-      commonjs: 'rxjs/scheduler',
-      commonjs2: 'rxjs/scheduler',
-      root: ['rxjs', 'scheduler']
     }
   }
 })
