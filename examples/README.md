@@ -6,6 +6,7 @@ Examples, in order of complexity:
 
 1. [Timer](timer)
 2. [Word Count](word-count)
+3. [TodoMVC](todomvc)
 
 ## Dependencies
 
