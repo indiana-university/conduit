@@ -21,7 +21,7 @@ RxJS is a functional reactive library used to control and transform data from on
 
 Conduit adopts a common convention known as [Finnish Notation](https://medium.com/@benlesh/observables-and-finnish-notation-df8356ed1c9b) in order to assist code readability. The names of streams are postfixed with the `$` character, making it easier to distinguish streams from other variable types. The Conduit API may not work as expected if you don't follow this convention.
 
-- [`createHandlers`](#createHandlers)
+- [`createHandlers`](#createhandlers)
 - [`createStreams`](#createstreams)
 - [`mergeStreams`](#mergestreams)
 - [`run`](#run)
