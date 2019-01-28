@@ -1,3 +1,8 @@
+/**
+ * Copyright (C) 2019 The Trustees of Indiana University
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 import { combineLatest, merge, of } from 'rxjs'
 import { map, mapTo, tap, withLatestFrom } from 'rxjs/operators'
 import { createHandlers, createStreams, run } from 'conduit-rxjs'

@@ -1,3 +1,8 @@
+/**
+ * Copyright (C) 2019 The Trustees of Indiana University
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 import Router from 'router'
 import { combineLatest, merge } from 'rxjs'
 import { filter, map, mapTo, shareReplay, switchMap, tap, withLatestFrom } from 'rxjs/operators'

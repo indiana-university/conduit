@@ -1,6 +1,7 @@
 {
   "name": "example-timer",
   "private": true,
+  "license": "BSD-3-Clause",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode=production --module-bind js=babel-loader",

@@ -1,3 +1,8 @@
+/**
+ * Copyright (C) 2019 The Trustees of Indiana University
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 import { combineLatest } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { connect } from 'conduit-rxjs-react'

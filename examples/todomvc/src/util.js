@@ -1,3 +1,8 @@
+/**
+ * Copyright (C) 2019 The Trustees of Indiana University
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 import { distinctUntilChanged, shareReplay } from 'rxjs/operators'
 
 // Create a custom operator because the two underlying operators

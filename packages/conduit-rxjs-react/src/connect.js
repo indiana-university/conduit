@@ -1,3 +1,8 @@
+/**
+ * Copyright (C) 2019 The Trustees of Indiana University
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 import { Component } from 'react'
 import { animationFrameScheduler, bindCallback, from, isObservable, of } from 'rxjs'
 import { audit, buffer, filter, mergeMap, observeOn, tap } from 'rxjs/operators'

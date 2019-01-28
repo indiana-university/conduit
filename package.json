@@ -1,6 +1,6 @@
 {
   "private": true,
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
