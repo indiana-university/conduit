@@ -14,14 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.iu.edu/iu-uits-es/ess-conduit.git"
+    "url": "git+https://github.com/indiana-university/conduit.git"
   },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://npmjs.iu.edu/repository"
-  },
-  "bugs": "https://github.iu.edu/iu-uits-es/ess-conduit/issues",
-  "homepage": "https://github.iu.edu/iu-uits-es/ess-conduit#readme",
+  "bugs": "https://github.com/indiana-university/conduit/issues",
+  "homepage": "https://github.com/indiana-university/conduit#readme",
   "peerDependencies": {
     "conduit-rxjs": ">= 0.4.0",
     "react": ">= 0.14.0",
