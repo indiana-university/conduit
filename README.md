@@ -66,5 +66,5 @@ There are several JavaScript frameworks built for reactive architectures, but th
 
 ## Contributors
 
-- Chris Basham ([basham](https://github.com/basham))
-- James Anderson ([james-anderson](https://github.com/james-anderson))
+- Chris Basham ([@basham](https://github.com/basham))
+- James Anderson ([@james-anderson](https://github.com/james-anderson))
