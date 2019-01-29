@@ -1,6 +1,6 @@
 {
   "name": "conduit-rxjs-react",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Conduit utilities for connecting RxJS streams to React.",
   "license": "BSD-3-Clause",
   "main": "bundles/conduit-rxjs-react.umd.min.js",
@@ -12,18 +12,27 @@
     "build:dev": "webpack --mode=development --module-bind js=babel-loader",
     "build:prod": "webpack --mode=production --module-bind js=babel-loader"
   },
+  "keywords": [
+    "conduit",
+    "rxjs",
+    "react",
+    "reactjs",
+    "reactive",
+    "stream",
+    "observable",
+    "component"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.iu.edu/iu-uits-es/ess-conduit.git"
+    "url": "git+https://github.com/indiana-university/conduit.git"
   },
   "publishConfig": {
-    "access": "public",
-    "registry": "https://npmjs.iu.edu/repository"
+    "access": "public"
   },
-  "bugs": "https://github.iu.edu/iu-uits-es/ess-conduit/issues",
-  "homepage": "https://github.iu.edu/iu-uits-es/ess-conduit#readme",
+  "bugs": "https://github.com/indiana-university/conduit/issues",
+  "homepage": "https://github.com/indiana-university/conduit#readme",
   "peerDependencies": {
-    "conduit-rxjs": ">= 0.4.0",
+    "conduit-rxjs": ">= 0.5.0",
     "react": ">= 0.14.0",
     "rxjs": ">= 6.2.0"
   },

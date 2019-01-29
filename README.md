@@ -1,4 +1,4 @@
-<img width="840" src="https://raw.githubusercontent.com/basham/conduit-media/master/logo/conduit-logo.svg?sanitize=true" alt="Conduit">
+<img width="840" src="https://raw.githubusercontent.com/indiana-university/conduit/master/media/logo/conduit-logo.svg?sanitize=true" alt="Conduit">
 
 Conduit provides a light set of utilities on top of a reactive library ([RxJS](http://reactivex.io/rxjs/)) and a UI rendering library ([React](https://reactjs.org/)) to support efficient and scalable front-end application architectures.
 
@@ -66,5 +66,5 @@ There are several JavaScript frameworks built for reactive architectures, but th
 
 ## Contributors
 
-- Chris Basham ([csbasham](https://github.iu.edu/csbasham))
-- James Anderson ([anderjak](https://github.iu.edu/anderjak))
+- Chris Basham ([@basham](https://github.com/basham))
+- James Anderson ([@james-anderson](https://github.com/james-anderson))
