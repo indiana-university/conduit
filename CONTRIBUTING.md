@@ -19,11 +19,11 @@
 
 ## Publishing releases
 
-1. Commit all work into master except for the version number in `package.json`. This will be handled automatically later.
+1. Commit all work into master, including updating the version number in `package.json`.
 2. Ensure a publish date and the new version numbers are mentioned in the `CHANGELOG` files.
 3. Only what is in `master` will be published.
 4. Ensure the bundles are built. `npm run start`
-5. Use the Lerna wizard to identify which packages should be published and what version numbers they will be bumped to. Each package can be versioned separately, and not all packages need to published at once. `npm run publish`
+5. Use the Lerna wizard to confirm which packages should be published and what version numbers they will be bumped to. Each package can be versioned separately, and not all packages need to published at once. `npm run publish`
 6. Confirm that the package is available through npm, the repo is tagged, and the packages have new version numbers.
 7. Rename the milestone from `Next` to whatever the published version number is. Give it a short, meaningful description. Close the milestone.
 8. Create a new milestone called `Next`.

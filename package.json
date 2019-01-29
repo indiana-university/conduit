@@ -6,11 +6,11 @@
     "build": "lerna run build",
     "lint": "standard",
     "lint:fix": "standard --fix",
-    "publish": "lerna publish",
+    "publish": "lerna publish from-package",
     "start": "npm install && npm run bootstrap && npm run build"
   },
   "devDependencies": {
-    "lerna": "2.11.0",
+    "lerna": "3.10.7",
     "standard": "11.0.1"
   }
 }
