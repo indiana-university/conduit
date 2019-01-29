@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const { banner } = require('../../config')
+const pkg = require('./package.json')
 
 module.exports = (env, argv) => ({
   entry: './src/index.js',
@@ -37,6 +38,6 @@ module.exports = (env, argv) => ({
     }
   },
   plugins: [
-    new webpack.BannerPlugin(banner)
+    new webpack.BannerPlugin(banner(pkg))
   ]
 })
