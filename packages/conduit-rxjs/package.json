@@ -16,6 +16,9 @@
     "type": "git",
     "url": "git+https://github.com/indiana-university/conduit.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "bugs": "https://github.com/indiana-university/conduit/issues",
   "homepage": "https://github.com/indiana-university/conduit#readme",
   "peerDependencies": {
