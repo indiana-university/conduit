@@ -1,4 +1,6 @@
 const path = require('path')
+const webpack = require('webpack')
+const { banner } = require('../../config')
 
 module.exports = (env, argv) => ({
   entry: './src/index.js',
@@ -33,5 +35,8 @@ module.exports = (env, argv) => ({
       commonjs2: 'rxjs/operators',
       root: ['rxjs', 'operators']
     }
-  }
+  },
+  plugins: [
+    new webpack.BannerPlugin(banner)
+  ]
 })
