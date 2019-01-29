@@ -1,8 +1,10 @@
 # Changelog
 
-## Next
+## v0.5.0
 
-1. Changed software license to BSD 3-Clause, in accordance to the [IU Open Source Guidelines](https://indiana-university.github.io/).
+Published January 29, 2019.
+
+1. Changed software license to BSD 3-Clause, in accordance to the [IU Open Source Guidelines](https://indiana-university.github.io/). Source code and bundles now include licensing banners.
 
 2. This is the first public release of Conduit, transitioning from the IU enterprise npm registry to the public npm registery. All source code is identical to `v0.4.0`.
 

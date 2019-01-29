@@ -1,6 +1,6 @@
 {
   "name": "conduit-rxjs-react",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Conduit utilities for connecting RxJS streams to React.",
   "license": "BSD-3-Clause",
   "main": "bundles/conduit-rxjs-react.umd.min.js",
@@ -32,7 +32,7 @@
   "bugs": "https://github.com/indiana-university/conduit/issues",
   "homepage": "https://github.com/indiana-university/conduit#readme",
   "peerDependencies": {
-    "conduit-rxjs": ">= 0.4.0",
+    "conduit-rxjs": ">= 0.5.0",
     "react": ">= 0.14.0",
     "rxjs": ">= 6.2.0"
   },
