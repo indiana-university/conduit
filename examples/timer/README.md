@@ -4,7 +4,7 @@ The following exercises will walk you through how to use RxJS with React, and ho
 
 ## Installation and usage
 
-Once you [build the Conduit packages](../../), this example's dependencies will be installed. Just start the dev server and the example will open in the browser at [http://localhost:8080/](http://localhost:8080/).
+Once you [build the Conduit packages](../../README.md#building-and-testing), this example's dependencies will be installed. Just start the dev server and the example will open in the browser at [http://localhost:8080/](http://localhost:8080/).
 
 ```
 npm run start
