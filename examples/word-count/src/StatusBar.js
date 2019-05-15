@@ -3,16 +3,22 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+import { html, render } from 'lighterhtml'
 import { combineLatest } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { connect } from 'conduit-rxjs-react'
+import { whenAdded } from 'when-elements'
 
 // Tie together the application.
 export function StatusBar (values) {
   const state = createState(values)
   const selector$ = createSelector(state)
-  const component = connect(render, selector$)
-  return { component }
+
+  whenAdded('wc-status-bar', (el) => {
+    const sub = selector$.subscribe((props) => {
+      render(el, () => renderStatusBar(props))
+    })
+    return () => sub.unsubscribe()
+  })
 }
 
 // Derive new data from the source value streams.
@@ -47,28 +53,28 @@ function createSelector (state) {
   )
 }
 
-function render (props) {
+function renderStatusBar (props) {
   const { charCount, wordCount, sentenceCount } = props
-  return (
+  return html`
     <ul
       aria-atomic='false'
       aria-label='Text stats'
       aria-live='polite'
-      className='ex-statusbar'
+      class='ex-statusbar'
       id='statusbar'>
-      {renderItem(charCount, 'character')}
-      {renderItem(wordCount, 'word')}
-      {renderItem(sentenceCount, 'sentence')}
+      ${renderItem(charCount, 'character')}
+      ${renderItem(wordCount, 'word')}
+      ${renderItem(sentenceCount, 'sentence')}
     </ul>
-  )
+  `
 }
 
 function renderItem (value, label) {
-  return (
-    <li className='ex-statusbar__item'>
-      {`${value.toLocaleString()} ${pluralize(value, label)}`}
+  return html`
+    <li class='ex-statusbar__item'>
+      ${value.toLocaleString()} ${pluralize(value, label)}
     </li>
-  )
+  `
 }
 
 function pluralize (value, singular, plural = `${singular}s`) {

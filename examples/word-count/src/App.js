@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+import { html, render } from 'lighterhtml'
 import { combineLatest, merge, of } from 'rxjs'
 import { map, mapTo, tap, withLatestFrom } from 'rxjs/operators'
 import { createHandlers, createStreams, run } from 'conduit-rxjs'
-import { connect } from 'conduit-rxjs-react'
+import { whenAdded } from 'when-elements'
 import { StatusBar } from './StatusBar'
 
 // Tie together the application.
@@ -15,18 +16,21 @@ export function App (config) {
   const state = createState(values, config)
 
   // Initiate child components.
-  const statusBar = StatusBar(values)
-  const components = {
-    StatusBar: statusBar.component
-  }
+  StatusBar(values)
 
   const events = createEvents()
   const intent = createIntent(events, state)
   const reducers$ = createReducers(intent)
-  const selector$ = createSelector(events, state, components)
-  const component = connect(render, selector$)
-  const subscription = run(values, reducers$)
-  return { component, subscription }
+  const selector$ = createSelector(events, state)
+
+  whenAdded('#root', (el) => {
+    const sub = selector$.subscribe((props) => {
+      render(el, () => renderApp(props))
+    })
+    const runSub = run(values, reducers$)
+    sub.add(runSub)
+    return () => sub.unsubscribe()
+  })
 }
 
 // Initialize data that will change over time.
@@ -71,24 +75,26 @@ function createIntent (events, state) {
     map(([ id, samples ]) => samples[id].text)
   )
   const updateText$ = merge(
-    changeText$,
     clearText$,
     loadText$
   )
   return {
+    changeText$,
     updateText$
   }
 }
 
 // Update value streams based on intent.
 function createReducers (intent) {
-  const text$ = intent.updateText$.pipe(
+  const updateText$ = intent.updateText$.pipe(
     // Ensure the uncontrolled field stays up to date with state,
     // especially when the value is indirectly changed.
     // Isolate side effects in `tap()` operations.
     tap((text) => {
       document.getElementById('textInput').value = text
-    }),
+    })
+  )
+  const text$ = merge(intent.changeText$, updateText$).pipe(
     map((text) => ({ text }))
   )
   // The object keys will be mapped to the associated value stream in the `run()` subscription.
@@ -98,75 +104,73 @@ function createReducers (intent) {
 }
 
 // Select the minimal information needed to render the view.
-function createSelector (events, state, components) {
+function createSelector (events, state) {
   // Create all handlers at once.
   const handlers = createHandlers(events)
   // Combine all values into a single stream.
   return combineLatest(state.text$, state.samples$).pipe(
     map(([ text, samples ]) =>
-      ({ components, handlers, text, samples })
+      ({ handlers, text, samples })
     )
   )
 }
 
 // Values emitted by the selector become component props.
-function render (props) {
-  const { components, handlers, text } = props
-  const { StatusBar } = components
-  return (
-    <div className='ex'>
-      <header className='ex-header'>
-        <h1 className='ex-heading'>Word Count</h1>
-        {renderToolbar(props)}
+function renderApp (props) {
+  const { handlers } = props
+  return html`
+    <div class='ex'>
+      <header class='ex-header'>
+        <h1 class='ex-heading'>Word Count</h1>
+        ${renderToolbar(props)}
       </header>
-      <div className='ex-content'>
+      <div class='ex-content'>
         <textarea
           aria-controls='statusbar'
           aria-label='Text'
-          className='ex-textarea'
-          defaultValue={text}
+          class='ex-textarea'
           id='textInput'
-          onChange={handlers.changeText} />
+          oninput=${handlers.changeText} />
       </div>
-      <footer className='ex-footer'>
-        <StatusBar />
+      <footer class='ex-footer'>
+        <wc-status-bar />
       </footer>
     </div>
-  )
+  `
 }
 
 // Because Toolbar will only be rendered once,
 // there is no need to make it into its own component.
 function renderToolbar (props) {
   const { handlers, samples } = props
-  return (
-    <div className='ex-toolbar'>
+  return html`
+    <div class='ex-toolbar'>
       <form
-        className='ex-toolbar__control'
-        onSubmit={handlers.loadSample}>
+        class='ex-toolbar__control'
+        onsubmit=${handlers.loadSample}>
         <label
-          className='ex-label'
-          htmlFor='sampleSelect'>
+          class='ex-label'
+          for='sampleSelect'>
           Samples
         </label>
         <select id='sampleSelect'>
-          {samples.map(({ id, title }) =>
+          ${samples.map(({ id, title }) => html`
             <option
-              key={id}
-              value={id}>
-              {title}
+              key=${id}
+              value=${id}>
+              ${title}
             </option>
-          )}
+          `)}
         </select>
         <button type='submit'>Load</button>
       </form>
       <div>
         <button
-          onClick={handlers.clearText}
+          onclick=${handlers.clearText}
           type='button'>
           Clear
         </button>
       </div>
     </div>
-  )
+  `
 }
