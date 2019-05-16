@@ -8,30 +8,26 @@ import { combineLatest, merge, of } from 'rxjs'
 import { map, mapTo, tap, withLatestFrom } from 'rxjs/operators'
 import { createHandlers, createStreams, run } from 'conduit-rxjs'
 import { whenAdded } from 'when-elements'
-import { StatusBar } from './StatusBar'
+import { dispatch } from './util'
 
 // Tie together the application.
-export function App (config) {
+whenAdded('#root', (el) => setTimeout(() => {
   const values = createValues()
-  const state = createState(values, config)
-
-  // Initiate child components.
-  StatusBar(values)
-
+  const state = createState(values, window.CONFIG)
   const events = createEvents()
   const intent = createIntent(events, state)
   const reducers$ = createReducers(intent)
   const selector$ = createSelector(events, state)
 
-  whenAdded('#root', (el) => {
-    const sub = selector$.subscribe((props) => {
-      render(el, () => renderApp(props))
-    })
-    const runSub = run(values, reducers$)
-    sub.add(runSub)
-    return () => sub.unsubscribe()
+  const sub = selector$.subscribe((props) => {
+    render(el, () => renderApp(props))
   })
-}
+  const runSub = run(values, reducers$)
+  sub.add(runSub)
+  const dispatchSub = dispatch(el, values)
+  sub.add(dispatchSub)
+  return () => sub.unsubscribe()
+}))
 
 // Initialize data that will change over time.
 function createValues () {
@@ -132,8 +128,9 @@ function renderApp (props) {
           id='textInput'
           oninput=${handlers.changeText} />
       </div>
-      <footer class='ex-footer'>
-        <wc-status-bar />
+      <footer
+        class='ex-footer'
+        is='status-bar'>
       </footer>
     </div>
   `

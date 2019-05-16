@@ -7,19 +7,20 @@ import { html, render } from 'lighterhtml'
 import { combineLatest } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { whenAdded } from 'when-elements'
+import { fromDataEvents, subscribe } from './util'
+
+const data = fromDataEvents([ 'text$' ])
+subscribe(data)
 
 // Tie together the application.
-export function StatusBar (values) {
-  const state = createState(values)
+whenAdded('[is="status-bar"]', (el) => setTimeout(() => {
+  const state = createState(data)
   const selector$ = createSelector(state)
-
-  whenAdded('wc-status-bar', (el) => {
-    const sub = selector$.subscribe((props) => {
-      render(el, () => renderStatusBar(props))
-    })
-    return () => sub.unsubscribe()
+  const subscription = selector$.subscribe((props) => {
+    render(el, () => renderStatusBar(props))
   })
-}
+  return () => subscription.unsubscribe()
+}))
 
 // Derive new data from the source value streams.
 function createState (values) {
