@@ -1,3 +1,8 @@
+/**
+ * Copyright (C) 2019 The Trustees of Indiana University
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 import { from, fromEvent, isObservable, merge } from 'rxjs'
 import { map, mergeMap, shareReplay } from 'rxjs/operators'
 
