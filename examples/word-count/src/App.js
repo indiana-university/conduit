@@ -11,7 +11,7 @@ import { whenAdded } from 'when-elements'
 import { dispatch } from './util'
 
 // Tie together the application.
-whenAdded('#root', (el) => setTimeout(() => {
+whenAdded('#root', (el) => {
   const values = createValues()
   const state = createState(values, window.CONFIG)
   const events = createEvents()
@@ -27,7 +27,7 @@ whenAdded('#root', (el) => setTimeout(() => {
   const dispatchSub = dispatch(el, values)
   sub.add(dispatchSub)
   return () => sub.unsubscribe()
-}))
+})
 
 // Initialize data that will change over time.
 function createValues () {

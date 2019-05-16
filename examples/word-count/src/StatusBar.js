@@ -13,14 +13,14 @@ const data = fromDataEvents([ 'text$' ])
 subscribe(data)
 
 // Tie together the application.
-whenAdded('[is="status-bar"]', (el) => setTimeout(() => {
+whenAdded('[is="status-bar"]', (el) => {
   const state = createState(data)
   const selector$ = createSelector(state)
   const subscription = selector$.subscribe((props) => {
     render(el, () => renderStatusBar(props))
   })
   return () => subscription.unsubscribe()
-}))
+})
 
 // Derive new data from the source value streams.
 function createState (values) {
