@@ -3,22 +3,25 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-import { html, render } from 'lighterhtml'
+import { html } from 'lighterhtml'
 import { combineLatest } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { whenAdded } from 'when-elements'
-import { fromDataEvents, subscribe } from './util'
+import { fromDataEvents, fromProperty, renderComponent, subscribe } from './util'
 
 const data = fromDataEvents([ 'text$' ])
 subscribe(data)
 
 // Tie together the application.
 whenAdded('[is="status-bar"]', (el) => {
+  fromProperty(el, 'props').pipe(
+    map(({ text }) => text)
+  ).subscribe((p) => console.log('p', p))
   const state = createState(data)
   const selector$ = createSelector(state)
-  const subscription = selector$.subscribe((props) => {
-    render(el, () => renderStatusBar(props))
-  })
+  const subscription = selector$.pipe(
+    renderComponent(el, renderStatusBar)
+  ).subscribe()
   return () => subscription.unsubscribe()
 })
 

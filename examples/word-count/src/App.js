@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-import { html, render } from 'lighterhtml'
+import { html } from 'lighterhtml'
 import { combineLatest, merge, of } from 'rxjs'
 import { map, mapTo, tap, withLatestFrom } from 'rxjs/operators'
 import { createHandlers, createStreams, run } from 'conduit-rxjs'
 import { whenAdded } from 'when-elements'
-import { dispatch } from './util'
+import { dispatch, renderComponent } from './util'
 
 // Tie together the application.
 whenAdded('#root', (el) => {
@@ -19,9 +19,9 @@ whenAdded('#root', (el) => {
   const reducers$ = createReducers(intent)
   const selector$ = createSelector(events, state)
 
-  const sub = selector$.subscribe((props) => {
-    render(el, () => renderApp(props))
-  })
+  const sub = selector$.pipe(
+    renderComponent(el, renderApp)
+  ).subscribe()
   const runSub = run(values, reducers$)
   sub.add(runSub)
   const dispatchSub = dispatch(el, values)
@@ -130,7 +130,8 @@ function renderApp (props) {
       </div>
       <footer
         class='ex-footer'
-        is='status-bar'>
+        is='status-bar'
+        props=${props}>
       </footer>
     </div>
   `
