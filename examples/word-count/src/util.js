@@ -99,13 +99,13 @@ export function fromAttribute (target, name) {
   return new Observable((subscriber) => {
     const next = () => subscriber.next(target.getAttribute(name))
     next()
-    const mutationObserver = new MutationObserver((mutationsList) =>
+    const mutationObserver = new window.MutationObserver((mutationsList) =>
       mutationsList
         .filter(({ type }) => type === 'attributes')
         .filter(({ attributeName }) => attributeName === name)
         .forEach(next)
     )
-    mutationObserver.observe(target, { attributes: true });
+    mutationObserver.observe(target, { attributes: true })
     return () => mutationObserver.disconnect()
   }).pipe(
     shareReplay(1)
