@@ -5,7 +5,6 @@ Conduit utilities for connecting RxJS streams to React.
 ## Installation
 
 Install peer dependencies:
-- [`conduit-rxjs`](../conduit-rxjs) `>= 0.4.0`
 - [`react`](https://github.com/facebook/react) `>= 0.14.0`
 - [`rxjs`](https://github.com/ReactiveX/rxjs) `>= 6.2.0`
 
