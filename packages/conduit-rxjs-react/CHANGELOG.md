@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.6.0
+
+Published May 24, 2019.
+
+1. Fixed broken `componentWillUnmount` callback.
+
+2. Removed `conduit-rxjs` dependency.
+
+3. Removed several RxJS operator dependencies.
+
+4. Reduced bundle size.
+
 ## v0.5.0
 
 Published January 29, 2019.

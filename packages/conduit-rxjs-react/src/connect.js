@@ -4,9 +4,8 @@
  */
 
 import { Component } from 'react'
-import { animationFrameScheduler, bindCallback, from, isObservable, of } from 'rxjs'
-import { audit, buffer, filter, mergeMap, observeOn, tap } from 'rxjs/operators'
-import { createHandlers, createStreams } from 'conduit-rxjs'
+import { BehaviorSubject, bindCallback, isObservable, of } from 'rxjs'
+import { audit, filter, tap } from 'rxjs/operators'
 
 const defaultArgs = 'props$,componentDidRender,componentWillUnmount'.split(',')
 
@@ -19,7 +18,9 @@ export function connect (WrappedComponent, source, ...args) {
       this.subscription = this.getState().pipe(
         // Synchronously set initial state, only once.
         tap((state) => {
-          if (this.componentDidConstruct) return
+          if (this.componentDidConstruct) {
+            return
+          }
           this.shouldUpdate = true
           this.state = state
         }),
@@ -28,7 +29,9 @@ export function connect (WrappedComponent, source, ...args) {
         // Request an animation frame.
         // If multiple state updates emit in the meantime,
         // retain only the last one.
-        audit(requestAnimationFrameCallback)
+        audit(bindCallback((x, callback) =>
+          window.requestAnimationFrame(callback)
+        ))
       )
       // Once the RAF callback is called, then render.
         .subscribe((state) => {
@@ -39,56 +42,53 @@ export function connect (WrappedComponent, source, ...args) {
       this.componentDidConstruct = true
     }
     getState () {
-      if (isObservable(source)) { return source }
+      if (isObservable(source)) {
+        return source
+      }
       if (typeof source === 'function') {
         const output = this.initLifecycle()
-        if (isObservable(output)) { return output }
+        if (isObservable(output)) {
+          return output
+        }
         return of(output)
       }
       return of({})
     }
     initLifecycle () {
-      this.lifecycle = {}
       const params = (args.length ? args : defaultArgs)
         .slice(0, source.length)
         .map((name) => {
-          if (name === 'props$') { return this.initLifecycleProps() }
-          if (name === 'componentDidRender' || name === 'componentWillUnmount') { return this.initLifecycleConstructor(name) }
+          if (name === 'props$') {
+            return this.initLifecycleProps()
+          }
+          if (name === 'componentDidRender' || name === 'componentWillUnmount') {
+            return this.initLifecycleConstructor(name)
+          }
           return null
         })
       return source(...params)
     }
     initLifecycleProps () {
-      this.lifecycle = {
-        ...this.lifecycle,
-        ...createStreams({ props: this.props })
-      }
-      return this.lifecycle.props$
+      this.props$ = new BehaviorSubject(this.props)
+      return this.props$
     }
     initLifecycleConstructor (name) {
-      const lifecycle = createStreams([
-        name,
-        `${name}Callback`
-      ])
-      this[`${name}Subscription`] = createCallbackBuffer(
-        lifecycle[`${name}$`],
-        lifecycle[`${name}Callback$`]
-      )
-      this.lifecycle = {
-        ...this.lifecycle,
-        ...lifecycle
-      }
-      return createHandlers(this.lifecycle[`${name}$`])
+      const [ add, call, clear ] = useCallbackStack()
+      this[`${name}Call`] = call
+      this[`${name}Clear`] = clear
+      return add
     }
     componentDidMount () {
       this.componentDidRender()
     }
     componentWillReceiveProps (nextProps) {
-      if (this.lifecycle && this.lifecycle.props$) { this.lifecycle.props$.next(nextProps) }
+      if (this.props$) {
+        this.props$.next(nextProps)
+      }
     }
     shouldComponentUpdate () {
       // Ignore all attempts to update unless component state$ has emitted.
-      const {shouldUpdate} = this
+      const { shouldUpdate } = this
       this.shouldUpdate = false
       return shouldUpdate
     }
@@ -101,12 +101,17 @@ export function connect (WrappedComponent, source, ...args) {
       this.componentDidRender()
     }
     componentDidRender () {
-      if (this.lifecycle && this.lifecycle.componentDidRenderCallback$) { this.lifecycle.componentDidRenderCallback$.next() }
+      if (this.componentDidRenderCall) {
+        this.componentDidRenderCall()
+      }
     }
     componentWillUnmount () {
-      if (this.componentDidRenderSubscription) { this.componentDidRenderSubscription.unsubscribe() }
-      if (this.lifecycle && this.lifecycle.componentWillUnmountCallback$) { this.lifecycle.componentWillUnmountCallback$.next() }
-      if (this.componentWillUnmountSubscription) { this.componentWillUnmountSubscription.unsubscribe() }
+      if (this.componentDidRenderClear) {
+        this.componentDidRenderClear()
+      }
+      if (this.componentWillUnmountCall) {
+        this.componentWillUnmountCall()
+      }
       this.subscription.unsubscribe()
     }
   }
@@ -114,21 +119,21 @@ export function connect (WrappedComponent, source, ...args) {
   return Connect
 }
 
-const requestAnimationFrameCallback = bindCallback(
-  (x, callback) => window.requestAnimationFrame(callback)
-)
-
-function createCallbackBuffer (source$, callback$) {
-  return source$.pipe(
-    // Grab all source emissions
-    // between the end of last callback and the end of this callback.
-    buffer(callback$),
-    // Convert the array of functions into a stream of functions.
-    mergeMap((callbacks) => from(callbacks)),
-    // Execute each function during an animation frame, to avoid jank.
-    observeOn(animationFrameScheduler)
-  )
-    .subscribe((callback) => callback())
+function useCallbackStack () {
+  let stack = []
+  const add = (value) => {
+    if (typeof value === 'function') {
+      stack.push(value)
+    }
+  }
+  const clear = () => {
+    stack = []
+  }
+  const call = () => {
+    stack.forEach((callback) => callback())
+    clear()
+  }
+  return [ add, call, clear ]
 }
 
 function getDisplayName (WrappedComponent) {
