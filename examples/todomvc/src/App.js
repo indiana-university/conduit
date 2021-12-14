@@ -60,7 +60,7 @@ function createRouter (values) {
   //   '/active': () => handlers.currentRoute('/active'),
   //   '/completed': () => handlers.currentRoute('/completed'),
   // }
-  const routes = [ ROUTE_ALL, ROUTE_ACTIVE, ROUTE_COMPLETED ]
+  const routes = [ROUTE_ALL, ROUTE_ACTIVE, ROUTE_COMPLETED]
     .reduce((prev, route) => ({ ...prev, [route]: () => handlers.currentRoute(route) }), {})
   // Initialize the router, defaulting to the All route.
   // `router` could be returned from this function
@@ -145,19 +145,19 @@ function createEvents () {
   // This is because a single event could be interpreted in many ways.
   // Use `createIntent()` to declare the meaning of these events.
   return createStreams([
-    'blurEditTodo',
-    'changeCheckTodo',
-    'changeToggleAllTodos',
-    'clickClearCompletedTodos',
-    'clickRemoveTodo',
-    'doubleClickTodo',
-    'keyDownEditTodo',
-    'keyDownNewTodo'
+    'handleBlurEditTodo',
+    'handleChangeCheckTodo',
+    'handleChangeToggleAllTodos',
+    'handleClickClearCompletedTodos',
+    'handleClickRemoveTodo',
+    'handleDoubleClickTodo',
+    'handleKeyDownEditTodo',
+    'handleKeyDownNewTodo'
   ])
 }
 
 function createIntent (events) {
-  const addTodo$ = events.keyDownNewTodo$.pipe(
+  const addTodo$ = events.handleKeyDownNewTodo$.pipe(
     filter((event) => event.keyCode === KEY_ENTER),
     map((event) => event.target),
     map((target) => ({ target, value: target.value.trim() })),
@@ -168,7 +168,7 @@ function createIntent (events) {
     tap(({ target }) => { target.value = '' }),
     map(({ value }) => value)
   )
-  const cancelEditTodo$ = events.keyDownEditTodo$.pipe(
+  const cancelEditTodo$ = events.handleKeyDownEditTodo$.pipe(
     filter((event) => event.keyCode === KEY_ESCAPE),
     map(({ target }) => target),
     // In more complicated situations, it may be better to get
@@ -177,28 +177,28 @@ function createIntent (events) {
     // to just retrieve it through a data attribute.
     tap((target) => { target.value = target.dataset.title })
   )
-  const clearCompletedTodos$ = events.clickClearCompletedTodos$.pipe(
+  const clearCompletedTodos$ = events.handleClickClearCompletedTodos$.pipe(
     // The event object is no longer needed,
     // so it is replaced with `null`.
     mapTo(null)
   )
-  const completeTodo$ = events.changeCheckTodo$.pipe(
+  const completeTodo$ = events.handleChangeCheckTodo$.pipe(
     map((event) => event.target),
     map((target) => ({ completed: target.checked, id: target.dataset.id }))
   )
-  const editTodo$ = events.doubleClickTodo$.pipe(
+  const editTodo$ = events.handleDoubleClickTodo$.pipe(
     map((event) => event.target.dataset.id)
   )
-  const removeTodoByClick$ = events.clickRemoveTodo$.pipe(
+  const removeTodoByClick$ = events.handleClickRemoveTodo$.pipe(
     map((event) => event.target.dataset.id)
   )
-  const toggleTodos$ = events.changeToggleAllTodos$.pipe(
+  const toggleTodos$ = events.handleChangeToggleAllTodos$.pipe(
     map((event) => event.target.checked)
   )
-  const updateTodoByEnter$ = events.keyDownEditTodo$.pipe(
+  const updateTodoByEnter$ = events.handleKeyDownEditTodo$.pipe(
     filter((event) => event.keyCode === KEY_ENTER)
   )
-  const updateTodo$ = merge(updateTodoByEnter$, events.blurEditTodo$).pipe(
+  const updateTodo$ = merge(updateTodoByEnter$, events.handleBlurEditTodo$).pipe(
     map((event) => event.target),
     map((target) => ({ id: target.dataset.id, target, title: target.value.trim() })),
     shareReplay(1)
@@ -229,39 +229,39 @@ function createReducers (intent, values) {
   const addTodo$ = intent.addTodo$.pipe(
     map((title) => ({ id: uuid(), title, completed: false })),
     withLatestFrom(values.todos$),
-    map(([ todo, todos ]) => ([ ...todos, todo ]))
+    map(([todo, todos]) => ([...todos, todo]))
   )
   const clearCompletedTodos$ = intent.clearCompletedTodos$.pipe(
     withLatestFrom(values.todos$),
-    map(([ clear, todos ]) =>
+    map(([clear, todos]) =>
       todos
         .filter(({ completed }) => !completed)
     )
   )
   const completeTodo$ = intent.completeTodo$.pipe(
     withLatestFrom(values.todos$),
-    map(([ { id, completed }, todos ]) =>
+    map(([{ id, completed }, todos]) =>
       todos
         .map((todo) => todo.id === id ? { ...todo, completed } : todo)
     )
   )
   const removeTodo$ = intent.removeTodo$.pipe(
     withLatestFrom(values.todos$),
-    map(([ id, todos ]) =>
+    map(([id, todos]) =>
       todos
         .filter((todo) => todo.id !== id)
     )
   )
   const saveTodo$ = intent.saveTodo$.pipe(
     withLatestFrom(values.todos$),
-    map(([ { id, title }, todos ]) =>
+    map(([{ id, title }, todos]) =>
       todos
         .map((todo) => todo.id === id ? { ...todo, title } : todo)
     )
   )
   const toggleTodos$ = intent.toggleTodos$.pipe(
     withLatestFrom(values.todos$),
-    map(([ completed, todos ]) =>
+    map(([completed, todos]) =>
       todos
         .map((todo) => ({ ...todo, completed }))
     ),
@@ -370,8 +370,9 @@ function render (props) {
         <input
           autofocus
           className='new-todo'
-          onKeyDown={handlers.keyDownNewTodo}
-          placeholder='What needs to be done?' />
+          onKeyDown={handlers.handleKeyDownNewTodo}
+          placeholder='What needs to be done?'
+        />
       </header>
       {hasTodos && renderMain(props)}
       {hasTodos && renderFooter(props)}
@@ -387,8 +388,9 @@ function renderMain (props) {
         checked={!hasActiveTodos}
         className='toggle-all'
         id='toggle-all'
-        onChange={handlers.changeToggleAllTodos}
-        type='checkbox' />
+        onChange={handlers.handleChangeToggleAllTodos}
+        type='checkbox'
+      />
       <label for='toggle-all'>Mark all as complete</label>
       <ul className='todo-list'>
         {todos.map((item) => renderTodo(item, props))}
@@ -412,7 +414,7 @@ function renderTodo (item, props) {
   // <input
   //   checked={completed}
   //   className='toggle'
-  //   onChange={(event) => handlers.changeCheckTodo({ event, id })}
+  //   onChange={(event) => handlers.handleChangeCheckTodo({ event, id })}
   //   type='checkbox' />
   //
   // But the following implementation eliminated the need to wrap the event
@@ -421,24 +423,28 @@ function renderTodo (item, props) {
   return (
     <li
       className={className}
-      key={id}>
+      key={id}
+    >
       <div className='view'>
         <input
           checked={completed}
           className='toggle'
           data-id={id}
-          onChange={handlers.changeCheckTodo}
-          type='checkbox' />
+          onChange={handlers.handleChangeCheckTodo}
+          type='checkbox'
+        />
         <label
           data-id={id}
-          onDoubleClick={handlers.doubleClickTodo}>
+          onDoubleClick={handlers.handleDoubleClickTodo}
+        >
           {title}
         </label>
         <button
           aria-label={`Remove todo: ${title}`}
           className='destroy'
           data-id={id}
-          onClick={handlers.clickRemoveTodo} />
+          onClick={handlers.handleClickRemoveTodo}
+        />
       </div>
       <input
         className='edit'
@@ -446,18 +452,19 @@ function renderTodo (item, props) {
         data-title={title}
         defaultValue={title}
         id={`edit-${id}`}
-        onBlur={handlers.blurEditTodo}
-        onKeyDown={handlers.keyDownEditTodo} />
+        onBlur={handlers.handleBlurEditTodo}
+        onKeyDown={handlers.handleKeyDownEditTodo}
+      />
     </li>
   )
 }
 
 const filters = [
-  [ ROUTE_ALL, 'All' ],
-  [ ROUTE_ACTIVE, 'Active' ],
-  [ ROUTE_COMPLETED, 'Completed' ]
+  [ROUTE_ALL, 'All'],
+  [ROUTE_ACTIVE, 'Active'],
+  [ROUTE_COMPLETED, 'Completed']
 ]
-  .map(([ route, label ]) => ({ label, route }))
+  .map(([route, label]) => ({ label, route }))
 
 function renderFooter (props) {
   const { handlers, count, hasCompletedTodos } = props
@@ -472,10 +479,10 @@ function renderFooter (props) {
       {hasCompletedTodos &&
         <button
           className='clear-completed'
-          onClick={handlers.clickClearCompletedTodos}>
+          onClick={handlers.handleClickClearCompletedTodos}
+        >
           Clear completed
-        </button>
-      }
+        </button>}
     </footer>
   )
 }
@@ -488,7 +495,8 @@ function renderFilter (item, props) {
     <li key={route}>
       <a
         className={isSelected ? 'selected' : null}
-        href={`#${route}`}>
+        href={`#${route}`}
+      >
         {label}
       </a>
     </li>

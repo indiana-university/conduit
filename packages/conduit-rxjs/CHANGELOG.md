@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.6.0
+
+Published TBD
+
+1. Updated dependencies to latest version.
+
 ## v0.5.0
 
 Published January 29, 2019.

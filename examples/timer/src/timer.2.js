@@ -12,18 +12,22 @@ class Timer extends React.Component {
     super(props)
     this.state = { secondsElapsed: 0 }
   }
+
   tick () {
     this.setState((prevState) => ({
       secondsElapsed: prevState.secondsElapsed + 1
     }))
   }
+
   componentDidMount () {
     this.subscription = interval(1000)
       .subscribe(() => this.tick())
   }
+
   componentWillUnmount () {
     this.subscription.unsubscribe()
   }
+
   render () {
     return (
       <div>Seconds Elapsed: {this.state.secondsElapsed}</div>

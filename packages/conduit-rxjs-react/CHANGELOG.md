@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.7.0
+
+Published TBD
+
+1. Updated dependencies to latest version.
+
+2. Updated React lifecycle method name for use with React 16.3 to 18.x. This is a temporary fix as opposed to a more permanent fix discussed in [Issue #3](https://github.com/indiana-university/conduit/issues/3).
+
 ## v0.6.0
 
 Published May 24, 2019.

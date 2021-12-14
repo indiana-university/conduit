@@ -24,9 +24,11 @@ class Timer extends React.Component {
         this.setState(state)
       })
   }
+
   componentWillUnmount () {
     this.subscription.unsubscribe()
   }
+
   render () {
     return (
       <div>Seconds Elapsed: {this.state.secondsElapsed}</div>

@@ -21,9 +21,11 @@ function connect (WrappedComponent, state$) {
           this.setState(state)
         })
     }
+
     componentWillUnmount () {
       this.subscription.unsubscribe()
     }
+
     render () {
       return <WrappedComponent {...this.state} />
     }

@@ -41,7 +41,7 @@ function createState (values) {
 // Combine all values into a single stream.
 function createSelector (state) {
   return combineLatest(state.charCount$, state.wordCount$, state.sentenceCount$).pipe(
-    map(([ charCount, wordCount, sentenceCount ]) =>
+    map(([charCount, wordCount, sentenceCount]) =>
       ({ charCount, wordCount, sentenceCount })
     )
   )
@@ -55,7 +55,8 @@ function render (props) {
       aria-label='Text stats'
       aria-live='polite'
       className='ex-statusbar'
-      id='statusbar'>
+      id='statusbar'
+    >
       {renderItem(charCount, 'character')}
       {renderItem(wordCount, 'word')}
       {renderItem(sentenceCount, 'sentence')}

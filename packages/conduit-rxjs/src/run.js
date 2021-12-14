@@ -7,7 +7,7 @@ import { isObservable } from 'rxjs'
 
 export function run (values, reducer$) {
   const domains = isObservable(reducer$)
-    ? [ { values, reducer$ } ]
+    ? [{ values, reducer$ }]
     : Object.keys(values)
       .map((domain) =>
         ({ values: values[domain], reducer$: reducer$[`${domain}$`] })

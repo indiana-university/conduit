@@ -41,6 +41,7 @@ export function connect (WrappedComponent, source, ...args) {
 
       this.componentDidConstruct = true
     }
+
     getState () {
       if (isObservable(source)) {
         return source
@@ -54,6 +55,7 @@ export function connect (WrappedComponent, source, ...args) {
       }
       return of({})
     }
+
     initLifecycle () {
       const params = (args.length ? args : defaultArgs)
         .slice(0, source.length)
@@ -68,43 +70,52 @@ export function connect (WrappedComponent, source, ...args) {
         })
       return source(...params)
     }
+
     initLifecycleProps () {
       this.props$ = new BehaviorSubject(this.props)
       return this.props$
     }
+
     initLifecycleConstructor (name) {
-      const [ add, call, clear ] = useCallbackStack()
+      const [add, call, clear] = useCallbackStack()
       this[`${name}Call`] = call
       this[`${name}Clear`] = clear
       return add
     }
+
     componentDidMount () {
       this.componentDidRender()
     }
-    componentWillReceiveProps (nextProps) {
+
+    UNSAFE_componentWillReceiveProps (nextProps) {
       if (this.props$) {
         this.props$.next(nextProps)
       }
     }
+
     shouldComponentUpdate () {
       // Ignore all attempts to update unless component state$ has emitted.
       const { shouldUpdate } = this
       this.shouldUpdate = false
       return shouldUpdate
     }
+
     render () {
       return (
         <WrappedComponent {...this.state} />
       )
     }
+
     componentDidUpdate () {
       this.componentDidRender()
     }
+
     componentDidRender () {
       if (this.componentDidRenderCall) {
         this.componentDidRenderCall()
       }
     }
+
     componentWillUnmount () {
       if (this.componentDidRenderClear) {
         this.componentDidRenderClear()
@@ -133,7 +144,7 @@ function useCallbackStack () {
     stack.forEach((callback) => callback())
     clear()
   }
-  return [ add, call, clear ]
+  return [add, call, clear]
 }
 
 function getDisplayName (WrappedComponent) {

@@ -13,7 +13,7 @@ export function mergeStreams (...streamSets) {
         .reduce((streams, key) => {
           const a$ = streamSet[key]
           const b$ = acc[key]
-          const stream$ = b$ === undefined ? [ a$ ] : [ ...b$, a$ ]
+          const stream$ = b$ === undefined ? [a$] : [...b$, a$]
           return { ...streams, [key]: stream$ }
         }, acc)
     }, {})
