@@ -32,7 +32,7 @@
   "bugs": "https://github.com/indiana-university/conduit/issues",
   "homepage": "https://github.com/indiana-university/conduit#readme",
   "peerDependencies": {
-    "react": ">= 16.3.0 < 18",
+    "react": ">= 16.3.0",
     "rxjs": ">= 7.2.0"
   },
   "devDependencies": {

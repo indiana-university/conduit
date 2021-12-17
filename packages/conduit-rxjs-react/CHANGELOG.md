@@ -8,6 +8,8 @@ Published TBD
 
 2. Updated React lifecycle method name for use with React 16.3 to 17.x. This is a temporary fix as opposed to a more permanent fix discussed in [Issue #3](https://github.com/indiana-university/conduit/issues/3).
 
+3. Switched `rxjs/operators` imports to `rxjs` since they moved to top level in RxJS v7.2.
+
 ## v0.6.0
 
 Published May 24, 2019.
