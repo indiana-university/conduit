@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-import { combineLatest } from 'rxjs'
-import { map } from 'rxjs'
+import { combineLatest, map } from 'rxjs'
 import { connect } from 'conduit-rxjs-react'
 
 // Tie together the application.

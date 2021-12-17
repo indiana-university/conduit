@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-import { combineLatest, merge, of } from 'rxjs'
-import { map, mapTo, tap, withLatestFrom } from 'rxjs'
+import { combineLatest, map, mapTo, merge, of, tap, withLatestFrom } from 'rxjs'
 import { createHandlers, createStreams, run } from 'conduit-rxjs'
 import { connect } from 'conduit-rxjs-react'
 import { StatusBar } from './StatusBar'

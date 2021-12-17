@@ -4,8 +4,7 @@
  */
 
 import Router from 'router'
-import { combineLatest, merge } from 'rxjs'
-import { filter, map, mapTo, shareReplay, switchMap, tap, withLatestFrom } from 'rxjs'
+import { combineLatest, filter, map, mapTo, merge, shareReplay, switchMap, tap, withLatestFrom } from 'rxjs'
 import { createHandlers, createStreams, run } from 'conduit-rxjs'
 import { connect } from 'conduit-rxjs-react'
 import { distinctAndShare, pluralize, uuid } from './util'

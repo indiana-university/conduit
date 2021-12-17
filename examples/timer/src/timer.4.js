@@ -5,8 +5,7 @@
 
 import React from 'react'
 import { render } from 'react-dom'
-import { interval } from 'rxjs'
-import { map, startWith } from 'rxjs'
+import { interval, map, startWith } from 'rxjs'
 
 function connect (WrappedComponent, state$) {
   return class Connect extends React.Component {
