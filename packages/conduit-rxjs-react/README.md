@@ -74,8 +74,7 @@ To maximize performance when rendering, the component updates only when `source`
 ```js
 import React from 'react'
 import { render } from 'react-dom'
-import { interval } from 'rxjs'
-import { map, startWith } from 'rxjs'
+import { interval, map, startWith } from 'rxjs'
 import { connect } from 'conduit-rxjs-react'
 
 const timerState$ = interval(1000).pipe(
@@ -111,8 +110,7 @@ If `source` is an object or stream, `source` is shared with any number of compon
 ```js
 import React from 'react'
 import { render } from 'react-dom'
-import { combineLatest, interval } from 'rxjs'
-import { map, startWith, switchMap, tap } from 'rxjs'
+import { combineLatest, interval, map, startWith, switchMap, tap } from 'rxjs'
 import { connect } from 'conduit-rxjs-react'
 
 function selector(props$, componentDidRender, componentWillUnmount) {

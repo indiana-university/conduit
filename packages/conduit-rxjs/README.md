@@ -245,8 +245,7 @@ Automatically emit values to an upstream source from a downstream source. Use th
 Increment a counter with RxJS.
 
 ```js
-import { BehaviorSubject, Subject } from 'rxjs'
-import { map } from 'rxjs'
+import { BehaviorSubject, map, Subject } from 'rxjs'
 
 const count$ = new BehaviorSubject(0)
 const increment$ = new Subject()
@@ -292,8 +291,7 @@ handlers.increment(2) // Count: 4
 Partition and update values in two different stores with RxJS.
 
 ```js
-import { BehaviorSubject, Subject } from 'rxjs'
-import { map } from 'rxjs'
+import { BehaviorSubject, map, Subject } from 'rxjs'
 
 const db = {
   count$: new BehaviorSubject(0)
@@ -342,8 +340,7 @@ handlers.increment(2) // Count: 4
 Partition and update values in two different stores with Conduit.
 
 ```js
-import { merge } from 'rxjs'
-import { map } from 'rxjs'
+import { map, merge } from 'rxjs'
 import { createHandlers, createStreams, run } from 'conduit-rxjs'
 
 const db = createStreams({

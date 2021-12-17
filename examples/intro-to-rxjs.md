@@ -48,8 +48,7 @@ Static operators (otherwise known as a producers) are used to initiate observabl
 In RxJS v6, static operators and pipeable operators are imported from different locations.
 
 ```js
-import { combineLatest, from, merge, of } from 'rxjs'
-import { distinctUntilChanged, filter, map, mapTo, mergeMap } from 'rxjs'
+import { combineLatest, distinctUntilChanged, filter, from, map, mapTo, merge, mergeMap, of } from 'rxjs'
 ```
 
 ## Custom operators
@@ -93,8 +92,7 @@ If needing to do any work outside of the stream, the best places to do that is w
 If wanting to inspect the values emitted at different stages in a stream, an easy way is to `log` the output. It may be tempting to inject these calls within other operations, but ultimately, it starts to uncomfortably intertwine temporary debug code with app code.
 
 ```js
-import { interval } from 'rxjs'
-import { map } from 'rxjs'
+import { interval, map } from 'rxjs'
 
 interval(1000).pipe(
   map((i) => {
@@ -108,8 +106,7 @@ interval(1000).pipe(
 Instead, isolate these side effects in the `tap` operator, as it only inspects input and never modifies its output.
 
 ```js
-import { interval } from 'rxjs'
-import { map, tap } from 'rxjs'
+import { interval, map, tap } from 'rxjs'
 
 interval(1000).pipe(
   map((i) => i * 2),
@@ -120,8 +117,7 @@ interval(1000).pipe(
 If wanting to simplify this even more, consider using the [`rxjs-console-logger`](https://github.com/donaldaverill/rxjs-console-logger-operator) package or creating a custom operator.
 
 ```js
-import { interval } from 'rxjs'
-import { map } from 'rxjs'
+import { interval, map } from 'rxjs'
 import { debug } from 'rxjs-console-logger'
 
 interval(1000).pipe(
@@ -133,8 +129,7 @@ interval(1000).pipe(
 Remember to always subscribe to a stream. Otherwise, no operators will ever be executed.
 
 ```js
-import { interval } from 'rxjs'
-import { map } from 'rxjs'
+import { interval, map } from 'rxjs'
 import { debug } from 'rxjs-console-logger'
 
 interval(1000).pipe(
