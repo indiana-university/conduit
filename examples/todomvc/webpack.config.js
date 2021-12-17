@@ -13,8 +13,7 @@ module.exports = {
     react: 'React',
     'react-dom': 'ReactDOM',
     router: 'Router',
-    rxjs: 'rxjs',
-    'rxjs/operators': 'rxjs.operators'
+    rxjs: 'rxjs'
   },
   module: {
     rules: [

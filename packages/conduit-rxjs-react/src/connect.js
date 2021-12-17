@@ -5,7 +5,7 @@
 
 import { Component } from 'react'
 import { BehaviorSubject, bindCallback, isObservable, of } from 'rxjs'
-import { audit, filter, tap } from 'rxjs/operators'
+import { audit, filter, tap } from 'rxjs'
 
 const defaultArgs = 'props$,componentDidRender,componentWillUnmount'.split(',')
 

@@ -4,7 +4,7 @@
  */
 
 import { combineLatest } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { map } from 'rxjs'
 import { connect } from 'conduit-rxjs-react'
 
 // Tie together the application.

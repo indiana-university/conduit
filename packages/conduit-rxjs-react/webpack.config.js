@@ -29,13 +29,7 @@ module.exports = (env, argv) => ({
       commonjs2: 'react',
       root: 'React'
     },
-    rxjs: 'rxjs',
-    'rxjs/operators': {
-      amd: 'rxjs/operators',
-      commonjs: 'rxjs/operators',
-      commonjs2: 'rxjs/operators',
-      root: ['rxjs', 'operators']
-    }
+    rxjs: 'rxjs'
   },
   module: {
     rules: [

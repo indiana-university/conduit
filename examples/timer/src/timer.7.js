@@ -6,7 +6,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { interval } from 'rxjs'
-import { map, startWith, switchMap } from 'rxjs/operators'
+import { map, startWith, switchMap } from 'rxjs'
 import { connect } from 'conduit-rxjs-react'
 
 function createTimer () {

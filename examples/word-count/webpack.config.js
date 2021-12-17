@@ -12,8 +12,7 @@ module.exports = {
     'conduit-rxjs-react': 'ConduitReact',
     react: 'React',
     'react-dom': 'ReactDOM',
-    rxjs: 'rxjs',
-    'rxjs/operators': 'rxjs.operators'
+    rxjs: 'rxjs'
   },
   module: {
     rules: [
