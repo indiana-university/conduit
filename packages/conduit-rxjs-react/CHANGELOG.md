@@ -6,9 +6,9 @@ Published TBD
 
 1. Updated dependencies to latest version.
 
-2. Updated React lifecycle method name for use with React 16.3 to 17.x. This is a temporary fix as opposed to a more permanent fix discussed in [Issue #3](https://github.com/indiana-university/conduit/issues/3).
+2. Increased minimum peer dependency version of [RxJS to v7.2](https://github.com/ReactiveX/rxjs/blob/master/CHANGELOG.md#720-2021-07-05). Operators are now imported from the top-level `rxjs` module, since importing from `rxjs/operators` will be depreciated soon.
 
-3. Switched `rxjs/operators` imports to `rxjs` since they moved to top level in [RxJS v7.2](https://github.com/ReactiveX/rxjs/blob/master/CHANGELOG.md#720-2021-07-05).
+3. Updated React lifecycle method name for use with React 16.3 to 17.x. This is a temporary fix as opposed to a more permanent fix discussed in [Issue #3](https://github.com/indiana-university/conduit/issues/3).
 
 ## v0.6.0
 
