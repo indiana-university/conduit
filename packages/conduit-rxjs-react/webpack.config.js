@@ -23,19 +23,29 @@ module.exports = (env, argv) => ({
       commonjs2: 'conduit-rxjs',
       root: 'Conduit'
     },
-    'react': {
+    react: {
       amd: 'react',
       commonjs: 'react',
       commonjs2: 'react',
       root: 'React'
     },
-    rxjs: 'rxjs',
-    'rxjs/operators': {
-      amd: 'rxjs/operators',
-      commonjs: 'rxjs/operators',
-      commonjs2: 'rxjs/operators',
-      root: ['rxjs', 'operators']
-    }
+    rxjs: 'rxjs'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', { targets: 'defaults' }]
+            ]
+          }
+        }
+      }
+    ]
   },
   plugins: [
     new webpack.BannerPlugin(banner(pkg))

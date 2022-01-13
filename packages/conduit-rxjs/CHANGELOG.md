@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.6.0
+
+Published TBD
+
+1. Updated dependencies to latest version.
+
+2. Increased minimum peer dependency version of [RxJS to v7.2](https://github.com/ReactiveX/rxjs/blob/master/CHANGELOG.md#720-2021-07-05). Operators are now imported from the top-level `rxjs` module, since importing from `rxjs/operators` will be depreciated soon.
+
 ## v0.5.0
 
 Published January 29, 2019.

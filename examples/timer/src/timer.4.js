@@ -5,8 +5,7 @@
 
 import React from 'react'
 import { render } from 'react-dom'
-import { interval } from 'rxjs'
-import { map, startWith } from 'rxjs/operators'
+import { interval, map, startWith } from 'rxjs'
 
 function connect (WrappedComponent, state$) {
   return class Connect extends React.Component {
@@ -21,9 +20,11 @@ function connect (WrappedComponent, state$) {
           this.setState(state)
         })
     }
+
     componentWillUnmount () {
       this.subscription.unsubscribe()
     }
+
     render () {
       return <WrappedComponent {...this.state} />
     }

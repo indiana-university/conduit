@@ -5,8 +5,7 @@
 
 import React from 'react'
 import { render } from 'react-dom'
-import { interval } from 'rxjs'
-import { map, startWith } from 'rxjs/operators'
+import { interval, map, startWith } from 'rxjs'
 
 class Timer extends React.Component {
   constructor (props) {
@@ -24,9 +23,11 @@ class Timer extends React.Component {
         this.setState(state)
       })
   }
+
   componentWillUnmount () {
     this.subscription.unsubscribe()
   }
+
   render () {
     return (
       <div>Seconds Elapsed: {this.state.secondsElapsed}</div>

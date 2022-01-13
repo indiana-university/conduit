@@ -48,8 +48,7 @@ Static operators (otherwise known as a producers) are used to initiate observabl
 In RxJS v6, static operators and pipeable operators are imported from different locations.
 
 ```js
-import { combineLatest, from, merge, of } from 'rxjs'
-import { distinctUntilChanged, filter, map, mapTo, mergeMap } from 'rxjs/operators'
+import { combineLatest, distinctUntilChanged, filter, from, map, mapTo, merge, mergeMap, of } from 'rxjs'
 ```
 
 ## Custom operators
@@ -58,13 +57,13 @@ If there's an operator configuration or sequence that is often used, it is now e
 
 ```js
 // operators.js
-import { distinctUntilChanged } from 'rxjs/operators'
+import { distinctUntilChanged } from 'rxjs'
 
 export const distinctUntilObjectChanged = () => (source) =>
   source.pipe(distinctUntilChanged(null, (value) => JSON.stringify(value)))
 
 // app.js
-import { of } from 'rxjs/operators'
+import { of } from 'rxjs'
 import { distinctUntilObjectChanged } from './operators'
 
 of(
@@ -93,8 +92,7 @@ If needing to do any work outside of the stream, the best places to do that is w
 If wanting to inspect the values emitted at different stages in a stream, an easy way is to `log` the output. It may be tempting to inject these calls within other operations, but ultimately, it starts to uncomfortably intertwine temporary debug code with app code.
 
 ```js
-import { interval } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { interval, map } from 'rxjs'
 
 interval(1000).pipe(
   map((i) => {
@@ -108,8 +106,7 @@ interval(1000).pipe(
 Instead, isolate these side effects in the `tap` operator, as it only inspects input and never modifies its output.
 
 ```js
-import { interval } from 'rxjs'
-import { map, tap } from 'rxjs/operators'
+import { interval, map, tap } from 'rxjs'
 
 interval(1000).pipe(
   map((i) => i * 2),
@@ -120,8 +117,7 @@ interval(1000).pipe(
 If wanting to simplify this even more, consider using the [`rxjs-console-logger`](https://github.com/donaldaverill/rxjs-console-logger-operator) package or creating a custom operator.
 
 ```js
-import { interval } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { interval, map } from 'rxjs'
 import { debug } from 'rxjs-console-logger'
 
 interval(1000).pipe(
@@ -133,8 +129,7 @@ interval(1000).pipe(
 Remember to always subscribe to a stream. Otherwise, no operators will ever be executed.
 
 ```js
-import { interval } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { interval, map } from 'rxjs'
 import { debug } from 'rxjs-console-logger'
 
 interval(1000).pipe(
@@ -195,7 +190,7 @@ e$  |           f$  |
 In order to ensure the work by `d$` occurs only once, its value needs to be explicitly shared with `e$` and `f$`. To do this, use the `share` operator as the last operatation on `d$`. A stream that behaves this way is commonly called a *hot observable*.
 
 ```js
-import { share, skip } from 'rxjs/operators'
+import { share, skip } from 'rxjs'
 
 const d$ = c$.pipe(
   skip(3),
@@ -208,7 +203,7 @@ const d$ = c$.pipe(
 In order to ensure late subscribers like `f$` receive the latest value as soon as they subscribe, use `shareReplay(1)` rather than `share`. The first argument is the number of values remembered and shared by `d$`. In most cases, only one (the latest) is needed.
 
 ```js
-import { shareReplay, skip } from 'rxjs/operators'
+import { shareReplay, skip } from 'rxjs'
 
 const d$ = c$.pipe(
   skip(3),

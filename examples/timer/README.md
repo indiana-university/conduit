@@ -99,8 +99,7 @@ map         {0}-{1}-{2}-{3}--...
 ```jsx
 import React from 'react'
 import { render } from 'react-dom'
-import { interval } from 'rxjs'
-import { map, startWith } from 'rxjs/operators'
+import { interval, map, startWith } from 'rxjs'
 
 class Timer extends React.Component {
   constructor (props) {
@@ -138,8 +137,7 @@ Let's take the component and abstract it into a [higher-order component factory]
 ```jsx
 import React from 'react'
 import { render } from 'react-dom'
-import { interval } from 'rxjs'
-import { map, startWith } from 'rxjs/operators'
+import { interval, map, startWith } from 'rxjs'
 
 function connect (WrappedComponent, state$) {
   return class Connect extends React.Component {
@@ -187,8 +185,7 @@ Rather than providing your own higher-order component factory, you can use the `
 ```jsx
 import React from 'react'
 import { render } from 'react-dom'
-import { interval } from 'rxjs'
-import { map, startWith } from 'rxjs/operators'
+import { interval, map, startWith } from 'rxjs'
 import { connect } from 'conduit-rxjs-react'
 
 const timerState$ = interval(1000).pipe(
@@ -215,8 +212,7 @@ Perhaps you want to create several timers, each with different starting times an
 ```jsx
 import React from 'react'
 import { render } from 'react-dom'
-import { interval } from 'rxjs'
-import { map, startWith } from 'rxjs/operators'
+import { interval, map, startWith } from 'rxjs'
 import { connect } from 'conduit-rxjs-react'
 
 function createTimer (config = {}) {
@@ -256,8 +252,7 @@ Instead of manually creating several instances of the same connected component, 
 ```js
 import React from 'react'
 import { render } from 'react-dom'
-import { interval } from 'rxjs'
-import { map, startWith, switchMap } from 'rxjs/operators'
+import { interval, map, startWith, switchMap } from 'rxjs'
 import { connect } from 'conduit-rxjs-react'
 
 function createTimer () {

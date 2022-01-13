@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-import { combineLatest, merge, of } from 'rxjs'
-import { map, mapTo, tap, withLatestFrom } from 'rxjs/operators'
+import { combineLatest, map, mapTo, merge, of, tap, withLatestFrom } from 'rxjs'
 import { createHandlers, createStreams, run } from 'conduit-rxjs'
 import { connect } from 'conduit-rxjs-react'
 import { StatusBar } from './StatusBar'
@@ -39,7 +38,7 @@ function createValues () {
 // Derive new data as needed.
 function createState (values, config) {
   const samples = config.samples
-    .map(([ title, text ], id) => ({ id, title, text }))
+    .map(([title, text], id) => ({ id, title, text }))
   const samples$ = of(samples)
   return {
     ...values,
@@ -50,29 +49,29 @@ function createState (values, config) {
 // Initialize all UI events.
 function createEvents () {
   return createStreams([
-    'changeText',
-    'clearText',
-    'loadSample'
+    'handleChangeText',
+    'handleClearText',
+    'handleLoadSample'
   ])
 }
 
 // Transform UI events into the underlying meaning of that event.
 function createIntent (events, state) {
-  const changeText$ = events.changeText$.pipe(
+  const handleChangeText$ = events.handleChangeText$.pipe(
     map((event) => event.target.value)
   )
-  const clearText$ = events.clearText$.pipe(
+  const handleClearText$ = events.handleClearText$.pipe(
     mapTo('')
   )
-  const loadText$ = events.loadSample$.pipe(
+  const loadText$ = events.handleLoadSample$.pipe(
     tap((event) => event.preventDefault()),
-    map((event) => event.target.elements['sampleSelect'].value),
+    map((event) => event.target.elements.sampleSelect.value),
     withLatestFrom(state.samples$),
-    map(([ id, samples ]) => samples[id].text)
+    map(([id, samples]) => samples[id].text)
   )
   const updateText$ = merge(
-    changeText$,
-    clearText$,
+    handleChangeText$,
+    handleClearText$,
     loadText$
   )
   return {
@@ -103,7 +102,7 @@ function createSelector (events, state, components) {
   const handlers = createHandlers(events)
   // Combine all values into a single stream.
   return combineLatest(state.text$, state.samples$).pipe(
-    map(([ text, samples ]) =>
+    map(([text, samples]) =>
       ({ components, handlers, text, samples })
     )
   )
@@ -126,7 +125,8 @@ function render (props) {
           className='ex-textarea'
           defaultValue={text}
           id='textInput'
-          onChange={handlers.changeText} />
+          onChange={handlers.handleChangeText}
+        />
       </div>
       <footer className='ex-footer'>
         <StatusBar />
@@ -143,17 +143,20 @@ function renderToolbar (props) {
     <div className='ex-toolbar'>
       <form
         className='ex-toolbar__control'
-        onSubmit={handlers.loadSample}>
+        onSubmit={handlers.handleLoadSample}
+      >
         <label
           className='ex-label'
-          htmlFor='sampleSelect'>
+          htmlFor='sampleSelect'
+        >
           Samples
         </label>
         <select id='sampleSelect'>
           {samples.map(({ id, title }) =>
             <option
               key={id}
-              value={id}>
+              value={id}
+            >
               {title}
             </option>
           )}
@@ -162,8 +165,9 @@ function renderToolbar (props) {
       </form>
       <div>
         <button
-          onClick={handlers.clearText}
-          type='button'>
+          onClick={handlers.handleClearText}
+          type='button'
+        >
           Clear
         </button>
       </div>

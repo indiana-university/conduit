@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-import { distinctUntilChanged, shareReplay } from 'rxjs/operators'
+import { distinctUntilChanged, shareReplay } from 'rxjs'
 
 // Create a custom operator because the two underlying operators
 // are paired freqeuently in `createState()`.

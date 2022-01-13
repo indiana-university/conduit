@@ -2,7 +2,7 @@ const path = require('path')
 
 module.exports = {
   devServer: {
-    contentBase: [
+    static: [
       path.resolve(__dirname),
       path.resolve(__dirname, '../../packages/')
     ]
@@ -10,9 +10,24 @@ module.exports = {
   externals: {
     'conduit-rxjs': 'Conduit',
     'conduit-rxjs-react': 'ConduitReact',
-    'react': 'React',
+    react: 'React',
     'react-dom': 'ReactDOM',
-    'rxjs': 'rxjs',
-    'rxjs/operators': 'rxjs.operators'
+    rxjs: 'rxjs'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', { targets: 'defaults' }]
+            ]
+          }
+        }
+      }
+    ]
   }
 }
