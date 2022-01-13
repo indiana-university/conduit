@@ -2,7 +2,7 @@
 
 ## v0.7.0
 
-Published TBD
+Published January 13, 2022
 
 1. Updated dependencies to latest version.
 
