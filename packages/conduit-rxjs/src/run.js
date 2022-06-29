@@ -32,7 +32,9 @@ function subscribeToDomain (domain) {
     .subscribe((nextValues) =>
       Object.keys(nextValues)
         .map((key) => ({ subject$: values[`${key}$`], nextValue: nextValues[key] }))
-        .filter(({ subject$ }) => subject$)
-        .forEach(({ subject$, nextValue }) => subject$.next(nextValue))
+        .filter(({ subject$ }) => isObservable(subject$))
+        .forEach(({ subject$, nextValue }) => {
+          return subject$.next?.(nextValue)
+        })
     )
 }
