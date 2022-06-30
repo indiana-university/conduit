@@ -27,7 +27,7 @@ export function createHandlers (source) {
 
 function createHandler (source) {
   return isObservable(source)
-    ? function handler (value) { return source.next(value) }
+    ? function handler (value) { return source.next?.(value) }
     : null
 }
 

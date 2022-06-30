@@ -87,8 +87,8 @@ export function connect (WrappedComponent, source, ...args) {
     }
 
     UNSAFE_componentWillReceiveProps (nextProps) {
-      if (this.props$) {
-        this.props$.next(nextProps)
+      if (isObservable(this.props$)) {
+        this.props$.next?.(nextProps)
       }
     }
 
