@@ -1,6 +1,6 @@
 {
   "name": "conduit-rxjs",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "RxJS utilities to support UI architectures.",
   "license": "BSD-3-Clause",
   "main": "bundles/conduit-rxjs.umd.min.js",

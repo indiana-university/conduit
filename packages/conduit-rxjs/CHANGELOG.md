@@ -2,7 +2,7 @@
 
 ## v0.6.1
 
-Published June XX, 2022
+Published June 30, 2022
 
 1. Update `source.next()` and `subject$.next()` calls to verify we have an `Observable` with a `next` property (#106).
 

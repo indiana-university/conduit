@@ -2,7 +2,7 @@
 
 ## v0.7.1
 
-Published June XX, 2022
+Published June 30, 2022
 
 1. Update `props$.next()` call to verify we have an `Observable` with a `next` property (#106).
 
