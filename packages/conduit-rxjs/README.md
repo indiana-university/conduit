@@ -5,7 +5,7 @@ RxJS utilities to support UI architectures.
 ## Installation
 
 Install peer dependencies:
-- [`rxjs`](https://github.com/ReactiveX/rxjs) `>= 6.2.0`
+- [`rxjs`](https://github.com/ReactiveX/rxjs)
 
 Then install this package:
 
