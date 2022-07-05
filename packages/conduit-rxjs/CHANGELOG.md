@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.6.2
+
+Published July 5, 2022
+
+1. Update documentation to remove specific versions from peer dependencies (#108).
+2. Update dev dependencies to keep build tools updated (#110).
+
 ## v0.6.1
 
 Published June 30, 2022
