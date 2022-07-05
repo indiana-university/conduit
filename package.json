@@ -10,7 +10,7 @@
     "start": "npm install && npm run bootstrap && npm run build"
   },
   "devDependencies": {
-    "lerna": "4.0.0",
-    "standard": "16.0.4"
+    "lerna": "5.1.6",
+    "standard": "17.0.0"
   }
 }
